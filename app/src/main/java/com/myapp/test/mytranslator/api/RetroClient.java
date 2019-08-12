@@ -5,7 +5,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class RetroClient {
 
-    private static final String ROOT_URL = "http://api.now-android.ru";
+    private static final String ROOT_URL = "https://translate.yandex.net/";
     public static final String API_KEY = "trnsl.1.1.20190808T171430Z.b7cc4d32dc6cc29c.100b59d52c20bad4b7ad39a174f2c3fbedfa41bd";
 
 
