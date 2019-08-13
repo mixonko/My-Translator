@@ -3,5 +3,5 @@
     <string name="text">Ввести текст</string>
     <string name="camera_text">Текст с камеры</string>
     <string name="voice_text">Голосовой текст</string>
-    <string name="userText">Введите текст</string>
+    <string name="userText">Нажмите, чтобы ввести текст</string>
 </resources>
