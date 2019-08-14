@@ -8,17 +8,39 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
-    <style name="PlayText">
+    <style name="Buttons">
         <item name="android:layout_width">25dp</item>
         <item name="android:layout_height">25dp</item>
+    </style>
+
+    <style name="PlayText" parent="Buttons">
         <item name="android:background">@drawable/ic_play_button</item>
+        <item name="android:visibility">invisible</item>
     </style>
 
-    <style name="view">
-        <item name="android:layout_width">0dp</item>
-        <item name="android:layout_height">25dp</item>
-        <item name="android:layout_weight">1</item>
+    <style name="DeleteText" parent="Buttons">
+        <item name="android:background">@drawable/ic_del_text_button</item>
+        <item name="android:visibility">invisible</item>
+
     </style>
 
+    <style name="Text">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/colorBlack</item>
+        <item name="android:textSize">20dp</item>
+    </style>
+
+    <style name="Spinners">
+        <item name="android:layout_width">130dp</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+
+    <style name="TextLayouts">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">155dp</item>
+        <item name="android:orientation">vertical</item>
+        <item name="android:paddingTop">25dp</item>
+    </style>
 
 </resources>

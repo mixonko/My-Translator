@@ -1,4 +1,4 @@
 package com.myapp.test.mytranslator.presenter;
 
-public class TranslateCameraTextPresenter {
+public class CameraTextPresenter {
 }

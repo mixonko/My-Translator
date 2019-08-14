@@ -7,12 +7,19 @@ public interface TranslateTextContract {
         void setText(String resultText);
         void showNoConnection();
         void showError(Throwable t);
-        void recordVoice();
+        void voiceInputText();
+        void playUserText();
+        void playResultText();
+        void showButtons();
+        void hideButtons();
+        void swapLanguages();
     }
 
     interface Presenter{
         void onSwapLangButtonWasClicked();
         void onTextWasChanged();
+        void onPlayUserTextwasClicked();
+        void onPlayResultTextWasClicked();
         void onButtonRecorderWasClicked();
         void onDeleteTextButtonWasClicked();
     }

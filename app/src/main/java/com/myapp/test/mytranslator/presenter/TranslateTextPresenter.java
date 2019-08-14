@@ -13,23 +13,35 @@ public class TranslateTextPresenter implements TranslateTextContract.Presenter, 
 
     @Override
     public void onTextWasChanged() {
+        view.showButtons();
         repository.getTranslatedText(view.getText(), this);
 
     }
 
     @Override
+    public void onPlayUserTextwasClicked() {
+        view.playUserText();
+    }
+
+    @Override
+    public void onPlayResultTextWasClicked() {
+        view.playResultText();
+    }
+
+    @Override
     public void onButtonRecorderWasClicked() {
-        view.recordVoice();
+        view.voiceInputText();
     }
 
     @Override
     public void onDeleteTextButtonWasClicked() {
         view.deleteUserText();
+        view.hideButtons();
     }
 
     @Override
     public void onSwapLangButtonWasClicked() {
-
+        view.swapLanguages();
     }
 
     @Override
