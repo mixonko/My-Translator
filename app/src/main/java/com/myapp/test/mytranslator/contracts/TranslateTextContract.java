@@ -13,24 +13,31 @@ public interface TranslateTextContract {
         void showButtons();
         void hideButtons();
         void swapLanguages();
+        void copyResyltText();
+        String getFirstLang();
+        String getSecondLang();
+        void startCommunicationActivity();
     }
 
     interface Presenter{
         void onSwapLangButtonWasClicked();
         void onTextWasChanged();
+        void onLangWasSelected();
         void onPlayUserTextwasClicked();
         void onPlayResultTextWasClicked();
         void onButtonRecorderWasClicked();
         void onDeleteTextButtonWasClicked();
+        void onCopyButtonWasClicked();
+        void onCommunicationButtonWasClicked();
     }
 
     interface Repository {
-        void getTranslatedText(String userText, OnFinishedListener onFinishedListener);
+        void getTranslatedText(String userText, OnFinishedListener onFinishedListener, String firstLang, String secondLang);
 
         interface OnFinishedListener {
             void onFinished(String translatedText);
             void onFailure(Throwable t);
-            void onNoInternetConnection();
+            void showNoConnection();
         }
     }
 }

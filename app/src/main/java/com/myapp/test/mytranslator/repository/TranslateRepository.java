@@ -14,9 +14,12 @@ public class TranslateRepository implements TranslateTextContract.Repository {
     private String translatedText;
 
     @Override
-    public void getTranslatedText(String userText, final OnFinishedListener onFinishedListener) {
+    public void getTranslatedText(String userText, final OnFinishedListener onFinishedListener,
+                                  String firstLang, String secondLang) {
         if (InternetConnection.checkConnection(MyApplication.getAppContext())) {
-            RetroClient.getApiService().getTranslatedText(RetroClient.API_KEY, userText, "ru").enqueue(new Callback<TranslatedText>() {
+            RetroClient.getApiService()
+                    .getTranslatedText(RetroClient.API_KEY, userText, firstLang + "-" + secondLang)
+                    .enqueue(new Callback<TranslatedText>() {
                 @Override
                 public void onResponse(Call<TranslatedText> call, Response<TranslatedText> response) {
                     if (response.isSuccessful()) {
@@ -32,7 +35,7 @@ public class TranslateRepository implements TranslateTextContract.Repository {
             });
 
         }else{
-            onFinishedListener.onNoInternetConnection();
+            onFinishedListener.showNoConnection();
         }
     }
 }

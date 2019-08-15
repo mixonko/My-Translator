@@ -1,6 +1,9 @@
 package com.myapp.test.mytranslator.view;
 
 import android.app.Activity;
+import android.content.ClipData;
+import android.content.ClipboardManager;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.speech.RecognizerIntent;
@@ -9,6 +12,7 @@ import android.support.annotation.Nullable;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -23,7 +27,7 @@ import com.myapp.test.mytranslator.presenter.TranslateTextPresenter;
 import java.util.ArrayList;
 import java.util.Locale;
 
-public class TranslateTextActivity extends Activity implements TranslateTextContract.View, View.OnClickListener, TextToSpeech.OnInitListener {
+public class TranslateTextActivity extends Activity implements TranslateTextContract.View, View.OnClickListener, AdapterView.OnItemSelectedListener {
     private static final int RECOGNIZER_REQUEST_CODE = 1;
     private EditText userText;
     private TextView resultText;
@@ -33,8 +37,11 @@ public class TranslateTextActivity extends Activity implements TranslateTextCont
     private Button playUserText;
     private Button deleteUserText;
     private Button playResultText;
+    private Button copyResultText;
     private Button recorder;
+    private Button communication;
     private TextToSpeech textToSpeech;
+    private Locale locale;
     private TranslateTextContract.Presenter presenter;
 
     @Override
@@ -44,31 +51,27 @@ public class TranslateTextActivity extends Activity implements TranslateTextCont
 
         presenter = new TranslateTextPresenter(this);
 
-
         firstLang = findViewById(R.id.firstLang);
         firstLang.setAdapter(getSpinnerAdapter());
         firstLang.setSelection(4);
+        firstLang.setOnItemSelectedListener(this);
         secondLang = findViewById(R.id.secondLang);
         secondLang.setAdapter(getSpinnerAdapter());
         secondLang.setSelection(64);
-        textToSpeech = new TextToSpeech(MyApplication.getAppContext(), this);
+        secondLang.setOnItemSelectedListener(this);
         resultText = findViewById(R.id.resultText);
         userText = findViewById(R.id.userText);
         userText.addTextChangedListener(new TextWatcher() {
             @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-            }
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {   }
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
+                presenter.onTextWasChanged();
             }
 
             @Override
-            public void afterTextChanged(Editable editable) {
-                presenter.onTextWasChanged();
-
-            }
+            public void afterTextChanged(Editable editable) {   }
         });
         recorder = findViewById(R.id.recorder);
         recorder.setOnClickListener(this);
@@ -80,6 +83,10 @@ public class TranslateTextActivity extends Activity implements TranslateTextCont
         playResultText.setOnClickListener(this);
         deleteUserText = findViewById(R.id.deleteUserText);
         deleteUserText.setOnClickListener(this);
+        copyResultText = findViewById(R.id.copyResultText);
+        copyResultText.setOnClickListener(this);
+        communication = findViewById(R.id.communication);
+        communication.setOnClickListener(this);
     }
 
     @Override
@@ -120,12 +127,44 @@ public class TranslateTextActivity extends Activity implements TranslateTextCont
 
     @Override
     public void playUserText() {
-        textToSpeech.speak(userText.getText().toString(), TextToSpeech.QUEUE_FLUSH, null, "DEFAULT");
+        textToSpeech = new TextToSpeech(MyApplication.getAppContext(), new TextToSpeech.OnInitListener() {
+            @Override
+            public void onInit(int status) {
+                if (status == TextToSpeech.SUCCESS) {
+                    locale = new Locale(getFirstLang());
+                    int result = textToSpeech.setLanguage(locale);
+                    if (result == TextToSpeech.LANG_MISSING_DATA
+                            || result == TextToSpeech.LANG_NOT_SUPPORTED) {
+                        Toast.makeText(MyApplication.getAppContext(), "Извините, этот язык не поддерживается", Toast.LENGTH_LONG).show();
+                    }else {
+                        textToSpeech.speak(userText.getText().toString(), TextToSpeech.QUEUE_FLUSH, null);
+                    }
+                } else {
+                    Toast.makeText(MyApplication.getAppContext(), "Ошибка воспроизведения", Toast.LENGTH_LONG).show();
+                }
+            }
+        });
     }
 
     @Override
     public void playResultText() {
-        textToSpeech.speak(resultText.getText().toString(), TextToSpeech.QUEUE_FLUSH, null);
+        textToSpeech = new TextToSpeech(MyApplication.getAppContext(), new TextToSpeech.OnInitListener() {
+            @Override
+            public void onInit(int status) {
+                if (status == TextToSpeech.SUCCESS) {
+                    locale = new Locale(getSecondLang());
+                    int result = textToSpeech.setLanguage(locale);
+                    if (result == TextToSpeech.LANG_MISSING_DATA
+                            || result == TextToSpeech.LANG_NOT_SUPPORTED) {
+                        Toast.makeText(MyApplication.getAppContext(), "Извините, этот язык не поддерживается", Toast.LENGTH_LONG).show();
+                    }else {
+                        textToSpeech.speak(resultText.getText().toString(), TextToSpeech.QUEUE_FLUSH, null);
+                    }
+                } else {
+                    Toast.makeText(MyApplication.getAppContext(), "Ошибка воспроизведения", Toast.LENGTH_LONG).show();
+                }
+            }
+        });
     }
 
     @Override
@@ -133,6 +172,7 @@ public class TranslateTextActivity extends Activity implements TranslateTextCont
         playUserText.setVisibility(View.VISIBLE);
         deleteUserText.setVisibility(View.VISIBLE);
         playResultText.setVisibility(View.VISIBLE);
+        copyResultText.setVisibility(View.VISIBLE);
     }
 
     @Override
@@ -140,13 +180,43 @@ public class TranslateTextActivity extends Activity implements TranslateTextCont
         playUserText.setVisibility(View.INVISIBLE);
         deleteUserText.setVisibility(View.INVISIBLE);
         playResultText.setVisibility(View.INVISIBLE);
+        copyResultText.setVisibility(View.INVISIBLE);
     }
 
     @Override
     public void swapLanguages() {
-        int swap = firstLang.getSelectedItemPosition();
+        int swapLang = firstLang.getSelectedItemPosition();
         firstLang.setSelection(secondLang.getSelectedItemPosition());
-        secondLang.setSelection(swap);
+        secondLang.setSelection(swapLang);
+        userText.setText(resultText.getText().toString());
+    }
+
+    @Override
+    public void copyResyltText() {
+        ClipboardManager clipboard = (ClipboardManager) MyApplication.getAppContext()
+                .getSystemService(Context.CLIPBOARD_SERVICE);
+        ClipData clip = ClipData.newPlainText("", resultText.getText().toString());
+        clipboard.setPrimaryClip(clip);
+        Toast.makeText(MyApplication.getAppContext(), "Текст скопирован", Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public String getFirstLang() {
+        String identifier = String.valueOf(firstLang.getSelectedItem());
+        int stringId = getResources().getIdentifier(identifier, "string", MyApplication.getAppContext().getPackageName());
+        return getString(stringId);
+    }
+
+    @Override
+    public String getSecondLang() {
+        String identifier = String.valueOf(secondLang.getSelectedItem());
+        int stringId = getResources().getIdentifier(identifier, "string", MyApplication.getAppContext().getPackageName());
+        return getString(stringId);
+    }
+
+    @Override
+    public void startCommunicationActivity() {
+        startActivity(new Intent(MyApplication.getAppContext(), CommunicationActivity.class));
     }
 
     @Override
@@ -181,24 +251,12 @@ public class TranslateTextActivity extends Activity implements TranslateTextCont
             case R.id.deleteUserText:
                 presenter.onDeleteTextButtonWasClicked();
                 break;
-        }
-    }
-
-    @Override
-    public void onInit(int status) {
-        if (status == TextToSpeech.SUCCESS) {
-
-            Locale locale = new Locale("en");
-
-            int result = textToSpeech.setLanguage(locale);
-
-            if (result == TextToSpeech.LANG_MISSING_DATA
-                    || result == TextToSpeech.LANG_NOT_SUPPORTED) {
-                Toast.makeText(MyApplication.getAppContext(), "Извините, этот язык не поддерживается", Toast.LENGTH_LONG).show();
-
-            }
-        } else {
-            Toast.makeText(MyApplication.getAppContext(), "Ошибка воспроизведения", Toast.LENGTH_LONG).show();
+            case R.id.copyResultText:
+                presenter.onCopyButtonWasClicked();
+                break;
+            case R.id.communication:
+                presenter.onCommunicationButtonWasClicked();
+                break;
         }
     }
 
@@ -216,5 +274,15 @@ public class TranslateTextActivity extends Activity implements TranslateTextCont
         ArrayAdapter<String> adapter = new ArrayAdapter(this, android.R.layout.simple_spinner_item, languages);
         adapter.setDropDownViewResource(android.R.layout.simple_list_item_single_choice);
         return adapter;
+    }
+
+    @Override
+    public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+        presenter.onLangWasSelected();
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> adapterView) {
+
     }
 }

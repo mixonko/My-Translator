@@ -13,15 +13,8 @@
         <item name="android:layout_height">25dp</item>
     </style>
 
-    <style name="PlayText" parent="Buttons">
-        <item name="android:background">@drawable/ic_play_button</item>
+    <style name="UserButtons" parent="Buttons">
         <item name="android:visibility">invisible</item>
-    </style>
-
-    <style name="DeleteText" parent="Buttons">
-        <item name="android:background">@drawable/ic_del_text_button</item>
-        <item name="android:visibility">invisible</item>
-
     </style>
 
     <style name="Text">
@@ -40,7 +33,13 @@
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">155dp</item>
         <item name="android:orientation">vertical</item>
-        <item name="android:paddingTop">25dp</item>
+        <item name="android:layout_marginTop">5dp</item>
+        <item name="android:background">#fffefe</item>
+    </style>
+
+    <style name="MicButtons">
+        <item name="android:layout_width">50dp</item>
+        <item name="android:layout_height">50dp</item>
     </style>
 
 </resources>

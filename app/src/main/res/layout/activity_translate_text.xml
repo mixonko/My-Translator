@@ -3,7 +3,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="20dp">
+    android:padding="10dp"
+    android:background="#dedede">
 
     <FrameLayout
         android:layout_width="match_parent"
@@ -37,30 +38,44 @@
 
             <Button
                 android:id="@+id/playUserText"
-                style="@style/PlayText"
-                android:layout_gravity="left" />
+                style="@style/UserButtons"
+                android:layout_gravity="left"
+                android:background="@drawable/ic_play_button" />
 
             <Button
                 android:id="@+id/deleteUserText"
-                style="@style/DeleteText"
-                android:layout_gravity="right" />
-
+                style="@style/UserButtons"
+                android:layout_gravity="right"
+                android:background="@drawable/ic_del_text_button" />
         </FrameLayout>
 
         <EditText
             android:id="@+id/userText"
             style="@style/Text"
             android:hint="@string/userText" />
-
     </LinearLayout>
 
     <LinearLayout
         style="@style/TextLayouts"
         android:orientation="vertical">
 
-        <Button
-            android:id="@+id/playResultText"
-            style="@style/PlayText" />
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <Button
+                android:id="@+id/playResultText"
+                style="@style/UserButtons"
+                android:layout_gravity="left"
+                android:background="@drawable/ic_play_button" />
+
+            <Button
+                android:id="@+id/copyResultText"
+                style="@style/UserButtons"
+                android:layout_gravity="right"
+                android:background="@drawable/ic_copy_result" />
+        </FrameLayout>
+
 
         <ScrollView
             android:layout_width="match_parent"
@@ -74,7 +89,6 @@
 
     </LinearLayout>
 
-
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -82,26 +96,24 @@
 
         <Button
             android:id="@+id/recorder"
-            android:layout_width="wrap_content"
+            android:layout_width="50dp"
             android:layout_height="wrap_content"
             android:layout_gravity="left"
             android:background="@drawable/ic_mic_button" />
 
         <Button
             android:id="@+id/camera"
-            android:layout_width="wrap_content"
+            android:layout_width="50dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:background="@drawable/ic_camera_button" />
 
         <Button
             android:id="@+id/communication"
-            android:layout_width="wrap_content"
+            android:layout_width="50dp"
             android:layout_height="wrap_content"
             android:layout_gravity="right"
             android:background="@drawable/ic_communication_button" />
-
     </FrameLayout>
-
 
 </LinearLayout>

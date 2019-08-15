@@ -14,8 +14,14 @@ public class TranslateTextPresenter implements TranslateTextContract.Presenter, 
     @Override
     public void onTextWasChanged() {
         view.showButtons();
-        repository.getTranslatedText(view.getText(), this);
+        repository.getTranslatedText(view.getText(), this,
+                view.getFirstLang(), view.getSecondLang());
+    }
 
+    @Override
+    public void onLangWasSelected() {
+        repository.getTranslatedText(view.getText(), this,
+                view.getFirstLang(), view.getSecondLang());
     }
 
     @Override
@@ -40,6 +46,16 @@ public class TranslateTextPresenter implements TranslateTextContract.Presenter, 
     }
 
     @Override
+    public void onCopyButtonWasClicked() {
+        view.copyResyltText();
+    }
+
+    @Override
+    public void onCommunicationButtonWasClicked() {
+        view.startCommunicationActivity();
+    }
+
+    @Override
     public void onSwapLangButtonWasClicked() {
         view.swapLanguages();
     }
@@ -55,7 +71,7 @@ public class TranslateTextPresenter implements TranslateTextContract.Presenter, 
     }
 
     @Override
-    public void onNoInternetConnection() {
+    public void showNoConnection() {
         view.showNoConnection();
     }
 }

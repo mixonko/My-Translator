@@ -97,4 +97,5 @@
     <string name="эсперанто">eo</string>
     <string name="яванский">jv</string>
     <string name="японский">ja</string>
+    <string name="auto_play">автовоспроизведение</string>
 </resources>
