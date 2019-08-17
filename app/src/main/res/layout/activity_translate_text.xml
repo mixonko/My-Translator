@@ -2,9 +2,9 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#dedede"
     android:orientation="vertical"
-    android:padding="10dp"
-    android:background="#dedede">
+    android:padding="10dp">
 
     <FrameLayout
         android:layout_width="match_parent"
@@ -36,11 +36,19 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
+
             <Button
                 android:id="@+id/playUserText"
                 style="@style/UserButtons"
                 android:layout_gravity="left"
                 android:background="@drawable/ic_play_button" />
+
+            <TextView
+                android:id="@+id/firstLangText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:visibility="invisible" />
 
             <Button
                 android:id="@+id/deleteUserText"
@@ -69,6 +77,13 @@
                 android:layout_gravity="left"
                 android:background="@drawable/ic_play_button" />
 
+            <TextView
+                android:id="@+id/secondLangText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:visibility="invisible" />
+
             <Button
                 android:id="@+id/copyResultText"
                 style="@style/UserButtons"
@@ -83,8 +98,7 @@
 
             <TextView
                 android:id="@+id/resultText"
-                style="@style/Text"
-                android:text="фффф" />
+                style="@style/Text" />
         </ScrollView>
 
     </LinearLayout>

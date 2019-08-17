@@ -7,7 +7,7 @@ public interface TranslateTextContract {
         void setText(String resultText);
         void showNoConnection();
         void showError(Throwable t);
-        void voiceInputText();
+        void voiceInputText(String lang);
         void playUserText();
         void playResultText();
         void showButtons();
@@ -17,6 +17,8 @@ public interface TranslateTextContract {
         String getFirstLang();
         String getSecondLang();
         void startCommunicationActivity();
+        void setResultLanguage();
+        void deleteResultText();
     }
 
     interface Presenter{
@@ -29,13 +31,15 @@ public interface TranslateTextContract {
         void onDeleteTextButtonWasClicked();
         void onCopyButtonWasClicked();
         void onCommunicationButtonWasClicked();
+        void userTextIsEmpty();
     }
 
     interface Repository {
-        void getTranslatedText(String userText, OnFinishedListener onFinishedListener, String firstLang, String secondLang);
+        void getTranslatedText(String userText, OnFinishedListener onFinishedListener,
+                               String firstLang, String secondLang, int requestCode);
 
         interface OnFinishedListener {
-            void onFinished(String translatedText);
+            void onFinished(String translatedText, int requestCode);
             void onFailure(Throwable t);
             void showNoConnection();
         }

@@ -31,6 +31,8 @@ public class TranslateTextActivity extends Activity implements TranslateTextCont
     private static final int RECOGNIZER_REQUEST_CODE = 1;
     private EditText userText;
     private TextView resultText;
+    private TextView firstLangText;
+    private TextView secondLangText;
     private Spinner firstLang;
     private Spinner secondLang;
     private Button swapLang;
@@ -51,9 +53,11 @@ public class TranslateTextActivity extends Activity implements TranslateTextCont
 
         presenter = new TranslateTextPresenter(this);
 
+        firstLangText = findViewById(R.id.firstLangText);
+        secondLangText = findViewById(R.id.secondLangText);
         firstLang = findViewById(R.id.firstLang);
         firstLang.setAdapter(getSpinnerAdapter());
-        firstLang.setSelection(4);
+        firstLang.setSelection(3);
         firstLang.setOnItemSelectedListener(this);
         secondLang = findViewById(R.id.secondLang);
         secondLang.setAdapter(getSpinnerAdapter());
@@ -67,7 +71,8 @@ public class TranslateTextActivity extends Activity implements TranslateTextCont
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                presenter.onTextWasChanged();
+                if (userText.getText().toString().length() != 0) presenter.onTextWasChanged();
+                if (userText.getText().toString().length() == 0) presenter.userTextIsEmpty();
             }
 
             @Override
@@ -116,13 +121,27 @@ public class TranslateTextActivity extends Activity implements TranslateTextCont
     }
 
     @Override
-    public void voiceInputText() {
+    public void voiceInputText(String lang) {
         Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
         intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
-        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_PREFERENCE, "en-US");
-        intent.putExtra(RecognizerIntent.EXTRA_ONLY_RETURN_LANGUAGE_PREFERENCE, "en-US");
-        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, "en-US");
-        startActivityForResult(intent, RECOGNIZER_REQUEST_CODE); // вызываем акт
+        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_PREFERENCE, lang);
+        intent.putExtra(RecognizerIntent.EXTRA_ONLY_RETURN_LANGUAGE_PREFERENCE, lang);
+        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, lang);
+        startActivityForResult(intent, RECOGNIZER_REQUEST_CODE);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (resultCode == RESULT_OK && data != null) {
+            ArrayList<String> voiceResults = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
+            if (!voiceResults.isEmpty()) {
+                userText.setText(voiceResults.get(0));
+            }
+        } else {
+            Toast.makeText(getApplicationContext(), "Ошибка записи", Toast.LENGTH_LONG).show();
+        }
     }
 
     @Override
@@ -173,6 +192,8 @@ public class TranslateTextActivity extends Activity implements TranslateTextCont
         deleteUserText.setVisibility(View.VISIBLE);
         playResultText.setVisibility(View.VISIBLE);
         copyResultText.setVisibility(View.VISIBLE);
+        firstLangText.setVisibility(View.VISIBLE);
+        secondLangText.setVisibility(View.VISIBLE);
     }
 
     @Override
@@ -181,6 +202,8 @@ public class TranslateTextActivity extends Activity implements TranslateTextCont
         deleteUserText.setVisibility(View.INVISIBLE);
         playResultText.setVisibility(View.INVISIBLE);
         copyResultText.setVisibility(View.INVISIBLE);
+        firstLangText.setVisibility(View.INVISIBLE);
+        secondLangText.setVisibility(View.INVISIBLE);
     }
 
     @Override
@@ -220,17 +243,14 @@ public class TranslateTextActivity extends Activity implements TranslateTextCont
     }
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
+    public void setResultLanguage() {
+        firstLangText.setText(String.valueOf(firstLang.getSelectedItem()));
+        secondLangText.setText(String.valueOf(secondLang.getSelectedItem()));
+    }
 
-        if (resultCode == RESULT_OK && data != null) {
-            ArrayList<String> voiceResults = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
-            if (!voiceResults.isEmpty()) {
-                userText.setText(voiceResults.get(0));
-            }
-        } else {
-            Toast.makeText(getApplicationContext(), "Ошибка записи", Toast.LENGTH_LONG).show();
-        }
+    @Override
+    public void deleteResultText() {
+        resultText.setText("");
     }
 
     @Override
@@ -261,12 +281,12 @@ public class TranslateTextActivity extends Activity implements TranslateTextCont
     }
 
     @Override
-    public void onDestroy() {
+    public void onStop() {
         if (textToSpeech != null) {
             textToSpeech.stop();
             textToSpeech.shutdown();
         }
-        super.onDestroy();
+        super.onStop();
     }
 
     private ArrayAdapter<String> getSpinnerAdapter(){

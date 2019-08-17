@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string-array name="languages">
-        <item>бразилия</item>
         <item>азербайджанский</item>
         <item>албанский</item>
         <item>амхарский</item>
@@ -16,6 +15,7 @@
         <item>бирманский</item>
         <item>болгарский</item>
         <item>боснийский</item>
+        <item>бразилия</item>
         <item>валлийский</item>
         <item>венгерский</item>
         <item>вьетнамский</item>

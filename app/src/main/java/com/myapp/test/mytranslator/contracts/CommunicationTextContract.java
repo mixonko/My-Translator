@@ -10,13 +10,21 @@ public interface CommunicationTextContract {
         void playSecondText();
         String getFirstLang();
         String getSecondLang();
+        void showNoConnection();
+        void showError(Throwable t);
+        void voiceInputFirstText();
+        void voiceInputSecondText();
     }
 
     interface Presenter{
         void onFirstMicButtonWasClicked();
         void onSecondMicButtonWasClicked();
+        void onFirstTextWasChanged();
+        void onSecondTextWasChanged();
         void onFirstSpeakerButtonWasClicked();
         void onSecondSpeakerButtonWasClicked();
+        void firstTextwasInserted();
+        void secondTextwasInserted();
     }
 
 }

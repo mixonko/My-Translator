@@ -6,6 +6,7 @@ import com.myapp.test.mytranslator.repository.TranslateRepository;
 public class TranslateTextPresenter implements TranslateTextContract.Presenter, TranslateTextContract.Repository.OnFinishedListener {
     private TranslateTextContract.View view;
     private TranslateTextContract.Repository repository;
+    private int RESULT_REQUEST_CODE = 1;
     public TranslateTextPresenter(TranslateTextContract.View view) {
         this.view = view;
         repository = new TranslateRepository();
@@ -14,14 +15,12 @@ public class TranslateTextPresenter implements TranslateTextContract.Presenter, 
     @Override
     public void onTextWasChanged() {
         view.showButtons();
-        repository.getTranslatedText(view.getText(), this,
-                view.getFirstLang(), view.getSecondLang());
+        getTranslatedText();
     }
 
     @Override
     public void onLangWasSelected() {
-        repository.getTranslatedText(view.getText(), this,
-                view.getFirstLang(), view.getSecondLang());
+        getTranslatedText();
     }
 
     @Override
@@ -36,7 +35,7 @@ public class TranslateTextPresenter implements TranslateTextContract.Presenter, 
 
     @Override
     public void onButtonRecorderWasClicked() {
-        view.voiceInputText();
+        view.voiceInputText(view.getFirstLang());
     }
 
     @Override
@@ -56,12 +55,18 @@ public class TranslateTextPresenter implements TranslateTextContract.Presenter, 
     }
 
     @Override
+    public void userTextIsEmpty() {
+        view.deleteResultText();
+        view.hideButtons();
+    }
+
+    @Override
     public void onSwapLangButtonWasClicked() {
         view.swapLanguages();
     }
 
     @Override
-    public void onFinished(String translatedText) {
+    public void onFinished(String translatedText, int requestCode) {
         view.setText(translatedText);
     }
 
@@ -73,5 +78,11 @@ public class TranslateTextPresenter implements TranslateTextContract.Presenter, 
     @Override
     public void showNoConnection() {
         view.showNoConnection();
+    }
+
+    private void getTranslatedText(){
+        view.setResultLanguage();
+        repository.getTranslatedText(view.getText(), this,
+                view.getFirstLang(), view.getSecondLang(), RESULT_REQUEST_CODE);
     }
 }
