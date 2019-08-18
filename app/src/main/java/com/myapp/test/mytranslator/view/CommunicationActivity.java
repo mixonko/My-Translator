@@ -72,12 +72,13 @@ public class CommunicationActivity extends Activity implements CommunicationText
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                if(firstEditText.getText().toString().length() != 0) presenter.onFirstEditTextWasChanged();
+                presenter.onFirstEditTextWasChanged();
             }
 
             @Override
             public void afterTextChanged(Editable editable) {
-                if(firstEditText.getText().toString().length() == 0) presenter.firstEditTextIsEmpty();
+                if (firstEditText.getText().toString().length() == 0)
+                    presenter.firstEditTextIsEmpty();
             }
         });
         firstTextView = findViewById(R.id.firstTextView);
@@ -93,12 +94,13 @@ public class CommunicationActivity extends Activity implements CommunicationText
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                if(firstEditText.getText().toString().length() != 0) presenter.onSecondEditTextWasChanged();
+                presenter.onSecondEditTextWasChanged();
             }
 
             @Override
             public void afterTextChanged(Editable editable) {
-                if(firstEditText.getText().toString().length() == 0) presenter.secondEditTextIsEmpty();
+                if (secondEditText.getText().toString().length() == 0)
+                    presenter.secondEditTextIsEmpty();
             }
         });
         playFirstText = findViewById(R.id.playFirstText);
@@ -125,12 +127,12 @@ public class CommunicationActivity extends Activity implements CommunicationText
 
     @Override
     public void setFirstTextView(String resultText) {
-        firstTextView.setText(resultText);
+        if (secondEditText.getText().toString().length() != 0) firstTextView.setText(resultText);
     }
 
     @Override
     public void setSecondTextView(String resultText) {
-        secondTextView.setText(resultText);
+        if (firstEditText.getText().toString().length() != 0) secondTextView.setText(resultText);
     }
 
     @Override
@@ -209,7 +211,7 @@ public class CommunicationActivity extends Activity implements CommunicationText
         voiceInputText(lang, SECOND_RECOGNIZER_REQUEST_CODE);
     }
 
-    private void voiceInputText(String lang, int requestCode){
+    private void voiceInputText(String lang, int requestCode) {
         Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
         intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
         intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_PREFERENCE, lang);
@@ -235,9 +237,15 @@ public class CommunicationActivity extends Activity implements CommunicationText
     }
 
     @Override
-    public void deleteTextView() {
-        firstTextView.setText(" ");
-        secondTextView.setText(" ");
+    public void deleteFirstGroup() {
+        firstEditText.setText(" ");
+        secondTextView.setText("");
+    }
+
+    @Override
+    public void deleteSecondGroup() {
+        firstTextView.setText("");
+        secondEditText.setText(" ");
     }
 
     @Override
@@ -323,7 +331,7 @@ public class CommunicationActivity extends Activity implements CommunicationText
     }
 
     @Override
-    public void stopTextToSpeech(){
+    public void stopTextToSpeech() {
         if (textToSpeech != null) {
             textToSpeech.stop();
             textToSpeech.shutdown();

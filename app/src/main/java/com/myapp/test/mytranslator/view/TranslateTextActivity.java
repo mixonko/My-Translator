@@ -73,7 +73,7 @@ public class TranslateTextActivity extends Activity implements TranslateTextCont
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                if (userText.getText().toString().length() != 0) presenter.onTextWasChanged();
+                presenter.onTextWasChanged();
             }
 
             @Override
@@ -110,7 +110,7 @@ public class TranslateTextActivity extends Activity implements TranslateTextCont
 
     @Override
     public void setText(String resultText) {
-        this.resultText.setText(resultText);
+        if (userText.getText().toString().length() != 0) this.resultText.setText(resultText);
     }
 
     @Override

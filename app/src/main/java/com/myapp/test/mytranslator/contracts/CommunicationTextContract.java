@@ -16,7 +16,8 @@ public interface CommunicationTextContract {
         void voiceInputSecondText(String lang);
         void showFirstTextGroup();
         void showSecondTextGroup();
-        void deleteTextView();
+        void deleteFirstGroup();
+        void deleteSecondGroup();
         void hideAllText();
         void hideButtons();
         void stopTextToSpeech();

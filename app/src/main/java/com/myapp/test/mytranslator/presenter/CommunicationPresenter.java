@@ -61,12 +61,12 @@ public class CommunicationPresenter extends Activity implements CommunicationTex
 
     @Override
     public void firstEditTextIsEmpty() {
-        clearAll();
+        deleteFirstGroup();
     }
 
     @Override
     public void secondEditTextIsEmpty() {
-        clearAll();
+        deleteSecondGroup();
     }
 
     @Override
@@ -83,12 +83,12 @@ public class CommunicationPresenter extends Activity implements CommunicationTex
 
     @Override
     public void onDeleteFirstTextButWasClicked() {
-        clearAll();
+        deleteFirstGroup();
     }
 
     @Override
     public void onDeleteSecondTextButWasClicked() {
-        clearAll();
+        deleteSecondGroup();
     }
 
     @Override
@@ -149,9 +149,18 @@ public class CommunicationPresenter extends Activity implements CommunicationTex
     }
 
     private void clearAll(){
-        view.deleteTextView();
         view.hideButtons();
         view.stopTextToSpeech();
+    }
+
+    private void deleteFirstGroup(){
+        view.deleteFirstGroup();
+        clearAll();
+    }
+
+    private void deleteSecondGroup(){
+        view.deleteSecondGroup();
+        clearAll();
     }
 
     private void onPlayButtonsWasClicked(){
