@@ -19,6 +19,7 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import com.myapp.test.mytranslator.R;
 import com.myapp.test.mytranslator.contracts.TranslateTextContract;
 import com.myapp.test.mytranslator.myAppContext.MyApplication;
@@ -40,7 +41,7 @@ public class TranslateTextActivity extends Activity implements TranslateTextCont
     private Button deleteUserText;
     private Button playResultText;
     private Button copyResultText;
-    private Button recorder;
+    private Button voiceInput;
     private Button communication;
     private TextToSpeech textToSpeech;
     private Locale locale;
@@ -67,19 +68,21 @@ public class TranslateTextActivity extends Activity implements TranslateTextCont
         userText = findViewById(R.id.userText);
         userText.addTextChangedListener(new TextWatcher() {
             @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {   }
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            }
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 if (userText.getText().toString().length() != 0) presenter.onTextWasChanged();
-                if (userText.getText().toString().length() == 0) presenter.userTextIsEmpty();
             }
 
             @Override
-            public void afterTextChanged(Editable editable) {   }
+            public void afterTextChanged(Editable editable) {
+                if (userText.getText().toString().length() == 0) presenter.userTextIsEmpty();
+            }
         });
-        recorder = findViewById(R.id.recorder);
-        recorder.setOnClickListener(this);
+        voiceInput = findViewById(R.id.recorder);
+        voiceInput.setOnClickListener(this);
         swapLang = findViewById(R.id.swapLang);
         swapLang.setOnClickListener(this);
         playUserText = findViewById(R.id.playUserText);
@@ -100,7 +103,7 @@ public class TranslateTextActivity extends Activity implements TranslateTextCont
     }
 
     @Override
-    public void deleteUserText() {
+    public void deleteAllText() {
         userText.setText("");
         resultText.setText("");
     }
@@ -155,7 +158,7 @@ public class TranslateTextActivity extends Activity implements TranslateTextCont
                     if (result == TextToSpeech.LANG_MISSING_DATA
                             || result == TextToSpeech.LANG_NOT_SUPPORTED) {
                         Toast.makeText(MyApplication.getAppContext(), "Извините, этот язык не поддерживается", Toast.LENGTH_LONG).show();
-                    }else {
+                    } else {
                         textToSpeech.speak(userText.getText().toString(), TextToSpeech.QUEUE_FLUSH, null);
                     }
                 } else {
@@ -176,7 +179,7 @@ public class TranslateTextActivity extends Activity implements TranslateTextCont
                     if (result == TextToSpeech.LANG_MISSING_DATA
                             || result == TextToSpeech.LANG_NOT_SUPPORTED) {
                         Toast.makeText(MyApplication.getAppContext(), "Извините, этот язык не поддерживается", Toast.LENGTH_LONG).show();
-                    }else {
+                    } else {
                         textToSpeech.speak(resultText.getText().toString(), TextToSpeech.QUEUE_FLUSH, null);
                     }
                 } else {
@@ -215,7 +218,7 @@ public class TranslateTextActivity extends Activity implements TranslateTextCont
     }
 
     @Override
-    public void copyResyltText() {
+    public void copyResultText() {
         ClipboardManager clipboard = (ClipboardManager) MyApplication.getAppContext()
                 .getSystemService(Context.CLIPBOARD_SERVICE);
         ClipData clip = ClipData.newPlainText("", resultText.getText().toString());
@@ -254,10 +257,18 @@ public class TranslateTextActivity extends Activity implements TranslateTextCont
     }
 
     @Override
+    public void stopTextToSpeech() {
+        if (textToSpeech != null) {
+            textToSpeech.stop();
+            textToSpeech.shutdown();
+        }
+    }
+
+    @Override
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.recorder:
-                presenter.onButtonRecorderWasClicked();
+                presenter.onVoiceInputButtonWasClicked();
                 break;
             case R.id.swapLang:
                 presenter.onSwapLangButtonWasClicked();
@@ -282,14 +293,11 @@ public class TranslateTextActivity extends Activity implements TranslateTextCont
 
     @Override
     public void onStop() {
-        if (textToSpeech != null) {
-            textToSpeech.stop();
-            textToSpeech.shutdown();
-        }
+        stopTextToSpeech();
         super.onStop();
     }
 
-    private ArrayAdapter<String> getSpinnerAdapter(){
+    private ArrayAdapter<String> getSpinnerAdapter() {
         String[] languages = getResources().getStringArray(R.array.languages);
         ArrayAdapter<String> adapter = new ArrayAdapter(this, android.R.layout.simple_spinner_item, languages);
         adapter.setDropDownViewResource(android.R.layout.simple_list_item_single_choice);

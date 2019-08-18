@@ -59,7 +59,8 @@
 
         <EditText
             android:id="@+id/userText"
-            style="@style/Text"
+            android:defaultFocusHighlightEnabled="true"
+            style="@style/TranslateText"
             android:hint="@string/userText" />
     </LinearLayout>
 
@@ -93,12 +94,12 @@
 
 
         <ScrollView
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content">
 
             <TextView
                 android:id="@+id/resultText"
-                style="@style/Text" />
+                style="@style/TranslateText" />
         </ScrollView>
 
     </LinearLayout>

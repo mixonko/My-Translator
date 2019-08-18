@@ -9,32 +9,96 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:background="#FF205DCD">
+        android:orientation="vertical"
+        android:background="#FF205DCD" >
 
-        <EditText
-            android:id="@+id/firstText"
-            style="@style/Text"
-            android:hint="@string/userText" />
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+
+            <Button
+                android:id="@+id/playFirstText"
+                style="@style/UserButtons"
+                android:layout_gravity="left"
+                android:background="@drawable/ic_play_button" />
+
+            <Button
+                android:id="@+id/deleteFirstText"
+                style="@style/UserButtons"
+                android:layout_gravity="right"
+                android:background="@drawable/ic_del_text_button" />
+        </FrameLayout>
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" >
+
+            <ScrollView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/firstTextView"
+                    style="@style/CommunicationText" />
+            </ScrollView>
+
+            <EditText
+                android:id="@+id/firstEditText"
+                style="@style/CommunicationText"
+                android:hint="@string/userText" />
+        </FrameLayout>
+
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginTop="5dp"
         android:layout_weight="1"
-        android:background="#CD0014">
+        android:orientation="vertical"
+        android:background="#CD0014" >
 
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <Button
+                android:id="@+id/playSecondText"
+                style="@style/UserButtons"
+                android:layout_gravity="left"
+                android:background="@drawable/ic_play_button" />
+
+            <Button
+                android:id="@+id/deleteSecondText"
+                style="@style/UserButtons"
+                android:layout_gravity="right"
+                android:background="@drawable/ic_del_text_button" />
+        </FrameLayout>
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" >
+
+            <ScrollView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/secondTextView"
+                    style="@style/CommunicationText" />
+            </ScrollView>
 
         <EditText
-            android:id="@+id/secondText"
-            style="@style/Text"
+            android:id="@+id/secondEditText"
+            style="@style/CommunicationText"
             android:hint="@string/userText" />
+    </FrameLayout>
+
     </LinearLayout>
 
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -49,25 +113,8 @@
             <Button
                 android:id="@+id/firstMic"
                 style="@style/MicButtons"
-                android:background="@drawable/ic_first_mic" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:orientation="vertical">
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/auto_play" />
-
-            <Button
-                android:id="@+id/speaker"
-                style="@style/MicButtons"
                 android:layout_gravity="center"
-                android:background="@drawable/ic_play_button" />
+                android:background="@drawable/ic_first_mic" />
         </LinearLayout>
 
         <LinearLayout
@@ -83,7 +130,7 @@
             <Button
                 android:id="@+id/secondMic"
                 style="@style/MicButtons"
-                android:layout_gravity="right"
+                android:layout_gravity="center"
                 android:background="@drawable/ic_second_mic" />
         </LinearLayout>
     </FrameLayout>

@@ -9,8 +9,10 @@ import com.myapp.test.mytranslator.repository.TranslateRepository;
 public class CommunicationPresenter extends Activity implements CommunicationTextContract.Presenter, TranslateTextContract.Repository.OnFinishedListener{
     private CommunicationTextContract.View view;
     private TranslateTextContract.Repository repository;
-    private static final int FIRST_RESULT_REQUEST_CODE = 1;
-    private static final int SECOND_RESULT_REQUEST_CODE = 2;
+    private static final int FIRST_VOICE_INPUT_REQUEST_CODE = 1;
+    private static final int SECOND_VOICE_INPUT_REQUEST_CODE = 2;
+    private static final int FIRST_TEXT_CHANGE_REQUEST_CODE = 3;
+    private static final int SECOND_TEXT_CHANGE_REQUEST_CODE = 4;
 
     public CommunicationPresenter(CommunicationTextContract.View view) {
         this.view = view;
@@ -19,58 +21,90 @@ public class CommunicationPresenter extends Activity implements CommunicationTex
 
     @Override
     public void onFirstMicButtonWasClicked() {
+        hideAll();
         view.voiceInputFirstText();
     }
 
     @Override
     public void onSecondMicButtonWasClicked() {
+        hideAll();
         view.voiceInputSecondText();
     }
 
     @Override
-    public void onFirstTextWasChanged() {
+    public void onFirstEditTextWasChanged() {
         repository.getTranslatedText(view.getFirstText(), this,
-                view.getFirstLang(), view.getSecondLang(), FIRST_RESULT_REQUEST_CODE);
+                view.getFirstLang(), view.getSecondLang(), FIRST_TEXT_CHANGE_REQUEST_CODE);
     }
 
     @Override
-    public void onSecondTextWasChanged() {
+    public void onSecondEditTextWasChanged() {
         repository.getTranslatedText(view.getSecondText(), this,
-                view.getSecondLang(), view.getFirstLang(), SECOND_RESULT_REQUEST_CODE);
+                view.getSecondLang(), view.getFirstLang(), SECOND_TEXT_CHANGE_REQUEST_CODE);
     }
 
     @Override
-    public void onFirstSpeakerButtonWasClicked() {
-
-    }
-
-    @Override
-    public void onSecondSpeakerButtonWasClicked() {
-
-    }
-
-    @Override
-    public void firstTextwasInserted() {
+    public void firstTextWasInserted() {
         repository.getTranslatedText(view.getFirstText(), this,
-                view.getFirstLang(), view.getSecondLang(), FIRST_RESULT_REQUEST_CODE);
+                view.getFirstLang(), view.getSecondLang(), FIRST_VOICE_INPUT_REQUEST_CODE);
     }
 
     @Override
-    public void secondTextwasInserted() {
+    public void secondTextWasInserted() {
         repository.getTranslatedText(view.getSecondText(), this,
-                view.getSecondLang(), view.getFirstLang(), SECOND_RESULT_REQUEST_CODE);
+                view.getSecondLang(), view.getFirstLang(), SECOND_VOICE_INPUT_REQUEST_CODE);
+    }
+
+    @Override
+    public void firstEditTextIsEmpty() {
+        clearAll();
+    }
+
+    @Override
+    public void secondEditTextIsEmpty() {
+        clearAll();
+    }
+
+    @Override
+    public void onPlayFirstButTextWasClicked() {
+        onPlayButtonsWasClicked();
+        view.playFirstTextView(view.getFirstLang());
+    }
+
+    @Override
+    public void onPlaySecondTextButWasClicked() {
+        onPlayButtonsWasClicked();
+        view.playSecondTextView(view.getSecondLang());
+    }
+
+    @Override
+    public void onDeleteFirstTextButWasClicked() {
+        clearAll();
+    }
+
+    @Override
+    public void onDeleteSecondTextButWasClicked() {
+        clearAll();
     }
 
     @Override
     public void onFinished(String translatedText, int requestCode) {
         switch (requestCode){
-            case FIRST_RESULT_REQUEST_CODE:
-                view.setSecondText(translatedText);
-                view.playSecondText();
+            case FIRST_VOICE_INPUT_REQUEST_CODE:
+                view.showFirstTextGroup();
+                view.setSecondTextView(translatedText);
+                view.playSecondTextView(view.getSecondLang());
                 break;
-            case SECOND_RESULT_REQUEST_CODE:
-                view.setFirstText(translatedText);
-                view.playFirstText();
+            case SECOND_VOICE_INPUT_REQUEST_CODE:
+                view.showSecondTextGroup();
+                view.setFirstTextView(translatedText);
+                view.playFirstTextView(view.getFirstLang());
+                break;
+            case FIRST_TEXT_CHANGE_REQUEST_CODE:
+                view.setSecondTextView(translatedText);
+                break;
+            case SECOND_TEXT_CHANGE_REQUEST_CODE:
+                view.setFirstTextView(translatedText);
                 break;
         }
     }
@@ -83,5 +117,20 @@ public class CommunicationPresenter extends Activity implements CommunicationTex
     @Override
     public void showNoConnection() {
         view.showNoConnection();
+    }
+
+    private void hideAll(){
+        clearAll();
+        view.hideAllText();
+    }
+
+    private void clearAll(){
+        view.deleteAllText();
+        view.hideButtons();
+        view.stopTextToSpeech();
+    }
+
+    private void onPlayButtonsWasClicked(){
+        view.stopTextToSpeech();
     }
 }

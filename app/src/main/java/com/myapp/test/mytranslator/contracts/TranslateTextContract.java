@@ -3,7 +3,7 @@ package com.myapp.test.mytranslator.contracts;
 public interface TranslateTextContract {
     interface View{
         String getText();
-        void deleteUserText();
+        void deleteAllText();
         void setText(String resultText);
         void showNoConnection();
         void showError(Throwable t);
@@ -13,12 +13,13 @@ public interface TranslateTextContract {
         void showButtons();
         void hideButtons();
         void swapLanguages();
-        void copyResyltText();
+        void copyResultText();
         String getFirstLang();
         String getSecondLang();
         void startCommunicationActivity();
         void setResultLanguage();
         void deleteResultText();
+        void stopTextToSpeech();
     }
 
     interface Presenter{
@@ -27,7 +28,7 @@ public interface TranslateTextContract {
         void onLangWasSelected();
         void onPlayUserTextwasClicked();
         void onPlayResultTextWasClicked();
-        void onButtonRecorderWasClicked();
+        void onVoiceInputButtonWasClicked();
         void onDeleteTextButtonWasClicked();
         void onCopyButtonWasClicked();
         void onCommunicationButtonWasClicked();

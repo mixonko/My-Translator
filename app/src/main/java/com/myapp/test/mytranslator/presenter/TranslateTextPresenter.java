@@ -7,6 +7,7 @@ public class TranslateTextPresenter implements TranslateTextContract.Presenter, 
     private TranslateTextContract.View view;
     private TranslateTextContract.Repository repository;
     private int RESULT_REQUEST_CODE = 1;
+
     public TranslateTextPresenter(TranslateTextContract.View view) {
         this.view = view;
         repository = new TranslateRepository();
@@ -25,28 +26,32 @@ public class TranslateTextPresenter implements TranslateTextContract.Presenter, 
 
     @Override
     public void onPlayUserTextwasClicked() {
+        view.stopTextToSpeech();
         view.playUserText();
     }
 
     @Override
     public void onPlayResultTextWasClicked() {
+        view.stopTextToSpeech();
         view.playResultText();
+
     }
 
     @Override
-    public void onButtonRecorderWasClicked() {
+    public void onVoiceInputButtonWasClicked() {
         view.voiceInputText(view.getFirstLang());
     }
 
     @Override
     public void onDeleteTextButtonWasClicked() {
-        view.deleteUserText();
+        view.deleteAllText();
         view.hideButtons();
+        view.stopTextToSpeech();
     }
 
     @Override
     public void onCopyButtonWasClicked() {
-        view.copyResyltText();
+        view.copyResultText();
     }
 
     @Override
@@ -80,7 +85,7 @@ public class TranslateTextPresenter implements TranslateTextContract.Presenter, 
         view.showNoConnection();
     }
 
-    private void getTranslatedText(){
+    private void getTranslatedText() {
         view.setResultLanguage();
         repository.getTranslatedText(view.getText(), this,
                 view.getFirstLang(), view.getSecondLang(), RESULT_REQUEST_CODE);
