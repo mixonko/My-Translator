@@ -98,4 +98,6 @@
     <string name="яванский">jv</string>
     <string name="японский">ja</string>
     <string name="auto_play">автовоспроизведение</string>
+    <string name="greeting_tutorial">Покажите экран приветствия собеседнику</string>
+    <string name="greeting_text">Давай поговорим с помощью переводчика. Он будет переводить каждую нашу фразу.</string>
 </resources>

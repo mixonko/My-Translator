@@ -22,23 +22,27 @@ public class CommunicationPresenter extends Activity implements CommunicationTex
     @Override
     public void onFirstMicButtonWasClicked() {
         hideAll();
-        view.voiceInputFirstText();
+        view.voiceInputFirstText(view.getFirstLang());
     }
 
     @Override
     public void onSecondMicButtonWasClicked() {
         hideAll();
-        view.voiceInputSecondText();
+        view.voiceInputSecondText(view.getSecondLang());
     }
 
     @Override
     public void onFirstEditTextWasChanged() {
+        view.stopTextToSpeech();
+        view.showFirstTextGroup();
         repository.getTranslatedText(view.getFirstText(), this,
                 view.getFirstLang(), view.getSecondLang(), FIRST_TEXT_CHANGE_REQUEST_CODE);
     }
 
     @Override
     public void onSecondEditTextWasChanged() {
+        view.stopTextToSpeech();
+        view.showSecondTextGroup();
         repository.getTranslatedText(view.getSecondText(), this,
                 view.getSecondLang(), view.getFirstLang(), SECOND_TEXT_CHANGE_REQUEST_CODE);
     }
@@ -88,6 +92,26 @@ public class CommunicationPresenter extends Activity implements CommunicationTex
     }
 
     @Override
+    public void onGreetingButtonWasClicked() {
+        view.startGreetingActivity(view.getFirstLang(), view.getSecondLang());
+    }
+
+    @Override
+    public void onStopActivity() {
+        view.stopTextToSpeech();
+    }
+
+    @Override
+    public void onFirstTextViewWasClicked() {
+        view.playFirstTextView(view.getFirstLang());
+    }
+
+    @Override
+    public void onSecondTextViewWasClicked() {
+        view.playSecondTextView(view.getSecondLang());
+    }
+
+    @Override
     public void onFinished(String translatedText, int requestCode) {
         switch (requestCode){
             case FIRST_VOICE_INPUT_REQUEST_CODE:
@@ -125,7 +149,7 @@ public class CommunicationPresenter extends Activity implements CommunicationTex
     }
 
     private void clearAll(){
-        view.deleteAllText();
+        view.deleteTextView();
         view.hideButtons();
         view.stopTextToSpeech();
     }

@@ -9,7 +9,6 @@ import android.support.annotation.Nullable;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -28,6 +27,8 @@ import java.util.Locale;
 public class CommunicationActivity extends Activity implements CommunicationTextContract.View, View.OnClickListener {
     private static final int FIRST_RECOGNIZER_REQUEST_CODE = 1;
     private static final int SECOND_RECOGNIZER_REQUEST_CODE = 2;
+    public static final String FIRST_LANG_KEY = "first lang";
+    public static final String SECOND_LANG_KEY = "second lang";
     private CommunicationTextContract.Presenter presenter;
     private EditText firstEditText;
     private EditText secondEditText;
@@ -39,6 +40,7 @@ public class CommunicationActivity extends Activity implements CommunicationText
     private Button playSecondText;
     private Button deleteFirstText;
     private Button deleteSecondText;
+    private Button greeting;
     private Spinner firstLang;
     private Spinner secondLang;
     private TextToSpeech textToSpeech;
@@ -54,13 +56,13 @@ public class CommunicationActivity extends Activity implements CommunicationText
         firstMic = findViewById(R.id.firstMic);
         firstMic.setOnClickListener(this);
         secondMic = findViewById(R.id.secondMic);
-        secondMic.setOnClickListener(this); 
+        secondMic.setOnClickListener(this);
         firstLang = findViewById(R.id.firstLang);
         firstLang.setAdapter(getSpinnerAdapter());
-        firstLang.setSelection(3);
+        firstLang.setSelection(64);
         secondLang = findViewById(R.id.secondLang);
         secondLang.setAdapter(getSpinnerAdapter());
-        secondLang.setSelection(64);
+        secondLang.setSelection(3);
         firstEditText = findViewById(R.id.firstEditText);
         firstEditText.addTextChangedListener(new TextWatcher() {
             @Override
@@ -79,8 +81,10 @@ public class CommunicationActivity extends Activity implements CommunicationText
             }
         });
         firstTextView = findViewById(R.id.firstTextView);
+        firstTextView.setOnClickListener(this);
         secondEditText = findViewById(R.id.secondEditText);
         secondTextView = findViewById(R.id.secondTextView);
+        secondTextView.setOnClickListener(this);
         secondEditText.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -105,6 +109,8 @@ public class CommunicationActivity extends Activity implements CommunicationText
         deleteFirstText.setOnClickListener(this);
         deleteSecondText = findViewById(R.id.deleteSecondText);
         deleteSecondText.setOnClickListener(this);
+        greeting = findViewById(R.id.greeting);
+        greeting.setOnClickListener(this);
     }
 
     @Override
@@ -194,23 +200,22 @@ public class CommunicationActivity extends Activity implements CommunicationText
     }
 
     @Override
-    public void voiceInputFirstText() {
-        Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
-        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
-        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_PREFERENCE, "en-US");
-        intent.putExtra(RecognizerIntent.EXTRA_ONLY_RETURN_LANGUAGE_PREFERENCE, "en-US");
-        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, "en-US");
-        startActivityForResult(intent, FIRST_RECOGNIZER_REQUEST_CODE);
+    public void voiceInputFirstText(String lang) {
+        voiceInputText(lang, FIRST_RECOGNIZER_REQUEST_CODE);
     }
 
     @Override
-    public void voiceInputSecondText() {
+    public void voiceInputSecondText(String lang) {
+        voiceInputText(lang, SECOND_RECOGNIZER_REQUEST_CODE);
+    }
+
+    private void voiceInputText(String lang, int requestCode){
         Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
         intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
-        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_PREFERENCE, "ru");
-        intent.putExtra(RecognizerIntent.EXTRA_ONLY_RETURN_LANGUAGE_PREFERENCE, "ru");
-        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, "ru");
-        startActivityForResult(intent, SECOND_RECOGNIZER_REQUEST_CODE);
+        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_PREFERENCE, lang);
+        intent.putExtra(RecognizerIntent.EXTRA_ONLY_RETURN_LANGUAGE_PREFERENCE, lang);
+        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, lang);
+        startActivityForResult(intent, requestCode);
     }
 
     @Override
@@ -230,10 +235,8 @@ public class CommunicationActivity extends Activity implements CommunicationText
     }
 
     @Override
-    public void deleteAllText() {
-        firstEditText.setText(" ");
+    public void deleteTextView() {
         firstTextView.setText(" ");
-        secondEditText.setText(" ");
         secondTextView.setText(" ");
     }
 
@@ -301,12 +304,21 @@ public class CommunicationActivity extends Activity implements CommunicationText
             case R.id.deleteSecondText:
                 presenter.onDeleteSecondTextButWasClicked();
                 break;
+            case R.id.greeting:
+                presenter.onGreetingButtonWasClicked();
+                break;
+            case R.id.firstTextView:
+                presenter.onFirstTextViewWasClicked();
+                break;
+            case R.id.secondTextView:
+                presenter.onSecondTextViewWasClicked();
+                break;
         }
     }
 
     @Override
     public void onStop() {
-        stopTextToSpeech();
+        presenter.onStopActivity();
         super.onStop();
     }
 
@@ -316,5 +328,13 @@ public class CommunicationActivity extends Activity implements CommunicationText
             textToSpeech.stop();
             textToSpeech.shutdown();
         }
+    }
+
+    @Override
+    public void startGreetingActivity(String firstLang, String secondLang) {
+        Intent intent = new Intent(MyApplication.getAppContext(), GreetingActivity.class);
+        intent.putExtra(FIRST_LANG_KEY, firstLang);
+        intent.putExtra(SECOND_LANG_KEY, secondLang);
+        startActivity(intent);
     }
 }

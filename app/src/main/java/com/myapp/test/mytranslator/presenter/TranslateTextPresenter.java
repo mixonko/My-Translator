@@ -6,7 +6,7 @@ import com.myapp.test.mytranslator.repository.TranslateRepository;
 public class TranslateTextPresenter implements TranslateTextContract.Presenter, TranslateTextContract.Repository.OnFinishedListener {
     private TranslateTextContract.View view;
     private TranslateTextContract.Repository repository;
-    private int RESULT_REQUEST_CODE = 1;
+    private int RESULT_REQUEST_CODE = 5;
 
     public TranslateTextPresenter(TranslateTextContract.View view) {
         this.view = view;
@@ -66,13 +66,18 @@ public class TranslateTextPresenter implements TranslateTextContract.Presenter, 
     }
 
     @Override
+    public void onStopActivity() {
+        view.stopTextToSpeech();
+    }
+
+    @Override
     public void onSwapLangButtonWasClicked() {
         view.swapLanguages();
     }
 
     @Override
     public void onFinished(String translatedText, int requestCode) {
-        view.setText(translatedText);
+        if (RESULT_REQUEST_CODE == requestCode) view.setText(translatedText);
     }
 
     @Override
@@ -86,6 +91,7 @@ public class TranslateTextPresenter implements TranslateTextContract.Presenter, 
     }
 
     private void getTranslatedText() {
+        view.stopTextToSpeech();
         view.setResultLanguage();
         repository.getTranslatedText(view.getText(), this,
                 view.getFirstLang(), view.getSecondLang(), RESULT_REQUEST_CODE);

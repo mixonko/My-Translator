@@ -58,11 +58,11 @@ public class TranslateTextActivity extends Activity implements TranslateTextCont
         secondLangText = findViewById(R.id.secondLangText);
         firstLang = findViewById(R.id.firstLang);
         firstLang.setAdapter(getSpinnerAdapter());
-        firstLang.setSelection(3);
+        firstLang.setSelection(64);
         firstLang.setOnItemSelectedListener(this);
         secondLang = findViewById(R.id.secondLang);
         secondLang.setAdapter(getSpinnerAdapter());
-        secondLang.setSelection(64);
+        secondLang.setSelection(3);
         secondLang.setOnItemSelectedListener(this);
         resultText = findViewById(R.id.resultText);
         userText = findViewById(R.id.userText);
@@ -293,7 +293,7 @@ public class TranslateTextActivity extends Activity implements TranslateTextCont
 
     @Override
     public void onStop() {
-        stopTextToSpeech();
+        presenter.onStopActivity();
         super.onStop();
     }
 

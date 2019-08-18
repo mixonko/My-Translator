@@ -33,6 +33,7 @@ public interface TranslateTextContract {
         void onCopyButtonWasClicked();
         void onCommunicationButtonWasClicked();
         void userTextIsEmpty();
+        void onStopActivity();
     }
 
     interface Repository {

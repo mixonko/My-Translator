@@ -2,20 +2,18 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:padding="10dp">
+    android:orientation="vertical" >
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:orientation="vertical"
-        android:background="#FF205DCD" >
+        android:background="#FF205DCD"
+        android:orientation="vertical">
 
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
-
 
             <Button
                 android:id="@+id/playFirstText"
@@ -32,7 +30,7 @@
 
         <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" >
+            android:layout_height="wrap_content">
 
             <ScrollView
                 android:layout_width="wrap_content"
@@ -55,8 +53,8 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:orientation="vertical"
-        android:background="#CD0014" >
+        android:background="#CD0014"
+        android:orientation="vertical">
 
         <FrameLayout
             android:layout_width="match_parent"
@@ -77,7 +75,7 @@
 
         <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" >
+            android:layout_height="wrap_content">
 
             <ScrollView
                 android:layout_width="wrap_content"
@@ -88,11 +86,11 @@
                     style="@style/CommunicationText" />
             </ScrollView>
 
-        <EditText
-            android:id="@+id/secondEditText"
-            style="@style/CommunicationText"
-            android:hint="@string/userText" />
-    </FrameLayout>
+            <EditText
+                android:id="@+id/secondEditText"
+                style="@style/CommunicationText"
+                android:hint="@string/userText" />
+        </FrameLayout>
 
     </LinearLayout>
 
@@ -115,6 +113,18 @@
                 style="@style/MicButtons"
                 android:layout_gravity="center"
                 android:background="@drawable/ic_first_mic" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center|bottom"
+            android:orientation="vertical">
+
+            <Button
+                android:id="@+id/greeting"
+                style="@style/MicButtons"
+                android:background="@drawable/ic_play_button" />
         </LinearLayout>
 
         <LinearLayout

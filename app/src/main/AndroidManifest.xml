@@ -6,6 +6,7 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
+
     <application
         android:name=".myAppContext.MyApplication"
         android:allowBackup="true"
@@ -21,8 +22,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".view.CameraTextActivity"/>
-        <activity android:name=".view.CommunicationActivity"/>
+        <activity android:name=".view.CameraTextActivity" />
+        <activity android:name=".view.CommunicationActivity" />
+        <activity
+            android:name=".view.GreetingActivity"
+            android:theme="@style/GreetingTheme" />
     </application>
 
 </manifest>

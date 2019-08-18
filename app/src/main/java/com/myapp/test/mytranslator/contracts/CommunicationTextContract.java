@@ -12,14 +12,15 @@ public interface CommunicationTextContract {
         String getSecondLang();
         void showNoConnection();
         void showError(Throwable t);
-        void voiceInputFirstText();
-        void voiceInputSecondText();
+        void voiceInputFirstText(String lang);
+        void voiceInputSecondText(String lang);
         void showFirstTextGroup();
         void showSecondTextGroup();
-        void deleteAllText();
+        void deleteTextView();
         void hideAllText();
         void hideButtons();
         void stopTextToSpeech();
+        void startGreetingActivity(String firstLang, String secondLang);
     }
 
     interface Presenter{
@@ -35,6 +36,10 @@ public interface CommunicationTextContract {
         void onPlaySecondTextButWasClicked();
         void onDeleteFirstTextButWasClicked();
         void onDeleteSecondTextButWasClicked();
+        void onGreetingButtonWasClicked();
+        void onStopActivity();
+        void onFirstTextViewWasClicked();
+        void onSecondTextViewWasClicked();
     }
 
 }
