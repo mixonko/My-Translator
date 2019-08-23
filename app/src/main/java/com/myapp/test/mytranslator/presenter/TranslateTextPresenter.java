@@ -55,6 +55,11 @@ public class TranslateTextPresenter implements TranslateTextContract.Presenter, 
     }
 
     @Override
+    public void onCameraButtonWasClicked() {
+        view.startTextRecognizerActivity();
+    }
+
+    @Override
     public void onCommunicationButtonWasClicked() {
         view.startCommunicationActivity();
     }
@@ -92,7 +97,7 @@ public class TranslateTextPresenter implements TranslateTextContract.Presenter, 
 
     private void getTranslatedText() {
         view.stopTextToSpeech();
-        view.setResultLanguage();
+        view.setTextViewLanguage();
         repository.getTranslatedText(view.getText(), this,
                 view.getFirstLang(), view.getSecondLang(), RESULT_REQUEST_CODE);
     }

@@ -38,12 +38,12 @@
 
                 <TextView
                     android:id="@+id/firstTextView"
-                    style="@style/CommunicationText" />
+                    style="@style/Text" />
             </ScrollView>
 
             <EditText
                 android:id="@+id/firstEditText"
-                style="@style/CommunicationText"
+                style="@style/Text"
                 android:hint="@string/userText" />
         </FrameLayout>
 
@@ -83,12 +83,12 @@
 
                 <TextView
                     android:id="@+id/secondTextView"
-                    style="@style/CommunicationText" />
+                    style="@style/Text" />
             </ScrollView>
 
             <EditText
                 android:id="@+id/secondEditText"
-                style="@style/CommunicationText"
+                style="@style/Text"
                 android:hint="@string/userText" />
         </FrameLayout>
 

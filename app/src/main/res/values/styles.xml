@@ -24,7 +24,7 @@
         <item name="android:layout_marginRight">30dp</item>
     </style>
 
-    <style name="CommunicationText" parent="TranslateText">
+    <style name="Text" parent="TranslateText">
         <item name="android:visibility">invisible</item>
     </style>
 

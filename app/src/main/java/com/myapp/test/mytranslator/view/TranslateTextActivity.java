@@ -42,6 +42,7 @@ public class TranslateTextActivity extends Activity implements TranslateTextCont
     private Button playResultText;
     private Button copyResultText;
     private Button voiceInput;
+    private Button camera;
     private Button communication;
     private TextToSpeech textToSpeech;
     private Locale locale;
@@ -58,11 +59,11 @@ public class TranslateTextActivity extends Activity implements TranslateTextCont
         secondLangText = findViewById(R.id.secondLangText);
         firstLang = findViewById(R.id.firstLang);
         firstLang.setAdapter(getSpinnerAdapter());
-        firstLang.setSelection(64);
+        firstLang.setSelection(3);
         firstLang.setOnItemSelectedListener(this);
         secondLang = findViewById(R.id.secondLang);
         secondLang.setAdapter(getSpinnerAdapter());
-        secondLang.setSelection(3);
+        secondLang.setSelection(64);
         secondLang.setOnItemSelectedListener(this);
         resultText = findViewById(R.id.resultText);
         userText = findViewById(R.id.userText);
@@ -93,6 +94,8 @@ public class TranslateTextActivity extends Activity implements TranslateTextCont
         deleteUserText.setOnClickListener(this);
         copyResultText = findViewById(R.id.copyResultText);
         copyResultText.setOnClickListener(this);
+        camera = findViewById(R.id.camera);
+        camera.setOnClickListener(this);
         communication = findViewById(R.id.communication);
         communication.setOnClickListener(this);
     }
@@ -246,7 +249,12 @@ public class TranslateTextActivity extends Activity implements TranslateTextCont
     }
 
     @Override
-    public void setResultLanguage() {
+    public void startTextRecognizerActivity() {
+        startActivity(new Intent(MyApplication.getAppContext(), TextRecognizerActivity.class));
+    }
+
+    @Override
+    public void setTextViewLanguage() {
         firstLangText.setText(String.valueOf(firstLang.getSelectedItem()));
         secondLangText.setText(String.valueOf(secondLang.getSelectedItem()));
     }
@@ -287,6 +295,9 @@ public class TranslateTextActivity extends Activity implements TranslateTextCont
                 break;
             case R.id.communication:
                 presenter.onCommunicationButtonWasClicked();
+                break;
+            case R.id.camera:
+                presenter.onCameraButtonWasClicked();
                 break;
         }
     }

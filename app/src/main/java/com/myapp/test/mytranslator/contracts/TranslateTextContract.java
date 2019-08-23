@@ -17,7 +17,8 @@ public interface TranslateTextContract {
         String getFirstLang();
         String getSecondLang();
         void startCommunicationActivity();
-        void setResultLanguage();
+        void startTextRecognizerActivity();
+        void setTextViewLanguage();
         void deleteResultText();
         void stopTextToSpeech();
     }
@@ -31,6 +32,7 @@ public interface TranslateTextContract {
         void onVoiceInputButtonWasClicked();
         void onDeleteTextButtonWasClicked();
         void onCopyButtonWasClicked();
+        void onCameraButtonWasClicked();
         void onCommunicationButtonWasClicked();
         void userTextIsEmpty();
         void onStopActivity();
