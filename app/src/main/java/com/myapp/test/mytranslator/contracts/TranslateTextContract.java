@@ -21,6 +21,8 @@ public interface TranslateTextContract {
         void setTextViewLanguage();
         void deleteResultText();
         void stopTextToSpeech();
+        void pickImage();
+        void startCamera();
     }
 
     interface Presenter{
@@ -32,6 +34,7 @@ public interface TranslateTextContract {
         void onVoiceInputButtonWasClicked();
         void onDeleteTextButtonWasClicked();
         void onCopyButtonWasClicked();
+        void onImageButtonWasClicked();
         void onCameraButtonWasClicked();
         void onCommunicationButtonWasClicked();
         void userTextIsEmpty();
@@ -40,10 +43,10 @@ public interface TranslateTextContract {
 
     interface Repository {
         void getTranslatedText(String userText, OnFinishedListener onFinishedListener,
-                               String firstLang, String secondLang, int requestCode);
+                               String firstLang, String secondLang, String requestCode);
 
         interface OnFinishedListener {
-            void onFinished(String translatedText, int requestCode);
+            void onFinished(String translatedText, String requestCode);
             void onFailure(Throwable t);
             void showNoConnection();
         }

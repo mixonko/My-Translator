@@ -99,12 +99,14 @@
 
             <TextView
                 android:id="@+id/resultText"
-                style="@style/TranslateText" />
+                style="@style/TranslateText"  />
         </ScrollView>
 
     </LinearLayout>
 
-    <FrameLayout
+
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingTop="15dp">
@@ -113,22 +115,13 @@
             android:id="@+id/recorder"
             android:layout_width="50dp"
             android:layout_height="wrap_content"
-            android:layout_gravity="left"
             android:background="@drawable/ic_mic_button" />
-
-        <Button
-            android:id="@+id/camera"
-            android:layout_width="50dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:background="@drawable/ic_camera_button" />
 
         <Button
             android:id="@+id/communication"
             android:layout_width="50dp"
             android:layout_height="wrap_content"
-            android:layout_gravity="right"
             android:background="@drawable/ic_communication_button" />
-    </FrameLayout>
+    </LinearLayout>
 
 </LinearLayout>

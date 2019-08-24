@@ -15,7 +15,7 @@ public class TranslateRepository implements TranslateTextContract.Repository {
 
     @Override
     public void getTranslatedText(String userText, final OnFinishedListener onFinishedListener,
-                                  String firstLang, String secondLang, final int requestCode) {
+                                  String firstLang, String secondLang, final String requestCode) {
         if (InternetConnection.checkConnection(MyApplication.getAppContext())) {
             RetroClient.getApiService()
                     .getTranslatedText(RetroClient.API_KEY, userText, firstLang + "-" + secondLang)

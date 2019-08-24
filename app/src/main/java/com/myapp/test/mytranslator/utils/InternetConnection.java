@@ -10,4 +10,5 @@ public class InternetConnection {
         return ((ConnectivityManager) context.getSystemService
                 (Context.CONNECTIVITY_SERVICE)).getActiveNetworkInfo() != null;
     }
+
 }

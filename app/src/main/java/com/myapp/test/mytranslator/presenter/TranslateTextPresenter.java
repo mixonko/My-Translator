@@ -2,11 +2,12 @@ package com.myapp.test.mytranslator.presenter;
 
 import com.myapp.test.mytranslator.contracts.TranslateTextContract;
 import com.myapp.test.mytranslator.repository.TranslateRepository;
+import com.myapp.test.mytranslator.utils.InternetConnection;
 
 public class TranslateTextPresenter implements TranslateTextContract.Presenter, TranslateTextContract.Repository.OnFinishedListener {
     private TranslateTextContract.View view;
     private TranslateTextContract.Repository repository;
-    private int RESULT_REQUEST_CODE = 5;
+    private String TRANSLATE_REQUEST_CODE = "translate_request_code";
 
     public TranslateTextPresenter(TranslateTextContract.View view) {
         this.view = view;
@@ -55,8 +56,13 @@ public class TranslateTextPresenter implements TranslateTextContract.Presenter, 
     }
 
     @Override
+    public void onImageButtonWasClicked() {
+        view.pickImage();
+    }
+
+    @Override
     public void onCameraButtonWasClicked() {
-        view.startTextRecognizerActivity();
+        view.startCamera();
     }
 
     @Override
@@ -81,8 +87,8 @@ public class TranslateTextPresenter implements TranslateTextContract.Presenter, 
     }
 
     @Override
-    public void onFinished(String translatedText, int requestCode) {
-        if (RESULT_REQUEST_CODE == requestCode) view.setText(translatedText);
+    public void onFinished(String translatedText, String requestCode) {
+        if (TRANSLATE_REQUEST_CODE.equals(requestCode)) view.setText(translatedText);
     }
 
     @Override
@@ -99,6 +105,6 @@ public class TranslateTextPresenter implements TranslateTextContract.Presenter, 
         view.stopTextToSpeech();
         view.setTextViewLanguage();
         repository.getTranslatedText(view.getText(), this,
-                view.getFirstLang(), view.getSecondLang(), RESULT_REQUEST_CODE);
+                view.getFirstLang(), view.getSecondLang(), TRANSLATE_REQUEST_CODE);
     }
 }

@@ -1,9 +1,12 @@
 package com.myapp.test.mytranslator.view;
 
 import android.Manifest;
+import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -14,15 +17,16 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.FrameLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.common.api.CommonStatusCodes;
 import com.google.android.gms.vision.CameraSource;
 import com.google.android.gms.vision.Detector;
 import com.google.android.gms.vision.text.TextBlock;
 import com.google.android.gms.vision.text.TextRecognizer;
+import com.guna.ocrlibrary.OCRCapture;
 import com.myapp.test.mytranslator.R;
 import com.myapp.test.mytranslator.contracts.TextRecognizerContract;
 import com.myapp.test.mytranslator.myAppContext.MyApplication;
@@ -30,10 +34,15 @@ import com.myapp.test.mytranslator.presenter.TextRecognizerPresenter;
 
 import java.io.IOException;
 
-public class TextRecognizerActivity extends AppCompatActivity implements TextRecognizerContract.View, AdapterView.OnItemSelectedListener, View.OnClickListener {
+import static com.guna.ocrlibrary.OcrCaptureActivity.TextBlockObject;
+
+public class TextRecognizerActivity extends AppCompatActivity implements TextRecognizerContract.View, AdapterView.OnItemSelectedListener, View.OnClickListener{
+    private static final int LOAD_IMAGE_RESULTS = 1;
     private TextRecognizerContract.Presenter presenter;
     private SurfaceView cameraView;
+    private TextView userText;
     private TextView translatedText;
+    private TextRecognizer textRecognizer;
     private CameraSource cameraSource;
     private TextBlock item;
     private Spinner firstLang;
@@ -41,7 +50,6 @@ public class TextRecognizerActivity extends AppCompatActivity implements TextRec
     private Button translation;
     private Button takePhoto;
     private Button openPhoto;
-    private FrameLayout language;
 
     private static final String TAG = "MainActivity";
     private static final int requestPermissionID = 101;
@@ -52,6 +60,7 @@ public class TextRecognizerActivity extends AppCompatActivity implements TextRec
         setContentView(R.layout.activity_text_recognizer);
 
         cameraView = findViewById(R.id.surfaceView);
+        userText = findViewById(R.id.userText);
         translatedText = findViewById(R.id.translatedText);
         translation = findViewById(R.id.translation);
         translation.setOnClickListener(this);
@@ -59,7 +68,6 @@ public class TextRecognizerActivity extends AppCompatActivity implements TextRec
         takePhoto.setOnClickListener(this);
         openPhoto = findViewById(R.id.openPhoto);
         openPhoto.setOnClickListener(this);
-        language = findViewById(R.id.language);
         firstLang = findViewById(R.id.firstLang);
         firstLang.setAdapter(getSpinnerAdapter());
         firstLang.setSelection(3);
@@ -97,14 +105,14 @@ public class TextRecognizerActivity extends AppCompatActivity implements TextRec
 
     private void startCameraSource() {
 
-        final TextRecognizer textRecognizer = new TextRecognizer.Builder(MyApplication.getAppContext()).build();
+        textRecognizer = new TextRecognizer.Builder(MyApplication.getAppContext()).build();
 
         if (!textRecognizer.isOperational()) {
             Log.w(TAG, "Detector dependencies not loaded yet");
         } else {
 
             //Initialize camerasource to use high resolution and set Autofocus on.
-            cameraSource = new CameraSource.Builder(getApplicationContext(), textRecognizer)
+            cameraSource = new CameraSource.Builder(MyApplication.getAppContext(), textRecognizer)
                     .setFacing(CameraSource.CAMERA_FACING_BACK)
                     .setRequestedPreviewSize(1280, 1024)
                     .setAutoFocusEnabled(true)
@@ -151,7 +159,7 @@ public class TextRecognizerActivity extends AppCompatActivity implements TextRec
                     final SparseArray<TextBlock> items = detections.getDetectedItems();
                     if (items.size() != 0) {
 
-                        translatedText.post(new Runnable() {
+                        userText.post(new Runnable() {
                             @Override
                             public void run() {
                                 StringBuilder stringBuilder = new StringBuilder();
@@ -160,25 +168,14 @@ public class TextRecognizerActivity extends AppCompatActivity implements TextRec
                                     stringBuilder.append(item.getValue());
                                     stringBuilder.append("\n");
                                 }
-                                translatedText.setText(stringBuilder.toString());
+                                userText.setText(stringBuilder.toString());
                             }
                         });
                     }
                 }
             });
+
         }
-    }
-
-    @Override
-    public void showTranslate() {
-        translatedText.setVisibility(View.VISIBLE);
-        language.setVisibility(View.VISIBLE);
-    }
-
-    @Override
-    public void hideTranslate() {
-        translatedText.setVisibility(View.INVISIBLE);
-        language.setVisibility(View.INVISIBLE);
     }
 
     @Override
@@ -193,14 +190,9 @@ public class TextRecognizerActivity extends AppCompatActivity implements TextRec
 
     @Override
     public String getFirstLang() {
-        String identifier = String.valueOf(item.getLanguage());
+        String identifier = String.valueOf(firstLang.getSelectedItem());
         int stringId = getResources().getIdentifier(identifier, "string", MyApplication.getAppContext().getPackageName());
         return getString(stringId);
-    }
-
-    @Override
-    public void setFirstLang(int position) {
-        firstLang.setSelection(position);
     }
 
     @Override
@@ -251,4 +243,54 @@ public class TextRecognizerActivity extends AppCompatActivity implements TextRec
                 break;
         }
     }
+
+    @Override
+    public String getText() {
+        return userText.getText().toString();
+    }
+
+    @Override
+    public void setText(String result) {
+        translatedText.setText(result);
+    }
+
+    @Override
+    public void pickImage() {
+        Intent intentGallery = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        startActivityForResult(intentGallery, LOAD_IMAGE_RESULTS);
+    }
+
+    private boolean hasPermission() {
+        return ContextCompat.checkSelfPermission(this,
+                Manifest.permission.READ_EXTERNAL_STORAGE)
+                == PackageManager.PERMISSION_GRANTED;
+    }
+
+    private void getPermission() {
+        if (ActivityCompat.shouldShowRequestPermissionRationale(this,
+                Manifest.permission.READ_EXTERNAL_STORAGE)) {
+            //TODO:
+        } else {
+            // No explanation needed; request the permission
+            ActivityCompat.requestPermissions(this,
+                    new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 1);
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+//        if (data != null) {
+//            if (requestCode == CAMERA_SCAN_TEXT) {
+//                if (resultCode == CommonStatusCodes.SUCCESS) {
+//                    textView.setText(data.getStringExtra(TextBlockObject));
+//                }
+//            } else if (requestCode == LOAD_IMAGE_RESULTS) {
+//                Uri pickedImage = data.getData();
+//                String text = OCRCapture.Builder(this).getTextFromUri(pickedImage);
+//                textView.setText(text);
+//            }
+//        }
+    }
+
 }

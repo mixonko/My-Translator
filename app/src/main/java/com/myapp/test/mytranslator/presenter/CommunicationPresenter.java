@@ -9,10 +9,10 @@ import com.myapp.test.mytranslator.repository.TranslateRepository;
 public class CommunicationPresenter extends Activity implements CommunicationTextContract.Presenter, TranslateTextContract.Repository.OnFinishedListener{
     private CommunicationTextContract.View view;
     private TranslateTextContract.Repository repository;
-    private static final int FIRST_VOICE_INPUT_REQUEST_CODE = 1;
-    private static final int SECOND_VOICE_INPUT_REQUEST_CODE = 2;
-    private static final int FIRST_TEXT_CHANGE_REQUEST_CODE = 3;
-    private static final int SECOND_TEXT_CHANGE_REQUEST_CODE = 4;
+    private final String FIRST_VOICE_INPUT_REQUEST_CODE = "first_voice_input_request_code";
+    private final String SECOND_VOICE_INPUT_REQUEST_CODE = "second_voice_input_request_code";
+    private final String FIRST_TEXT_CHANGE_REQUEST_CODE = "first_text_change_request_code";
+    private final String SECOND_TEXT_CHANGE_REQUEST_CODE = "second_text_change_request_code";
 
     public CommunicationPresenter(CommunicationTextContract.View view) {
         this.view = view;
@@ -112,7 +112,7 @@ public class CommunicationPresenter extends Activity implements CommunicationTex
     }
 
     @Override
-    public void onFinished(String translatedText, int requestCode) {
+    public void onFinished(String translatedText, String requestCode) {
         switch (requestCode){
             case FIRST_VOICE_INPUT_REQUEST_CODE:
                 view.showFirstTextGroup();

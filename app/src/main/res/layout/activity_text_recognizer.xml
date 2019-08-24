@@ -8,62 +8,85 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
-    <FrameLayout
-        android:id="@+id/language"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:visibility="invisible"
-        android:background="#3de6e6e6">
-
-        <Spinner
-            android:id="@+id/firstLang"
-            style="@style/Spinners"
-            android:layout_gravity="left"  />
-
-        <ImageView
-            android:layout_width="400dp"
+        <FrameLayout
+            android:id="@+id/language"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:src="@drawable/ic_arrow_right"/>
+            android:background="#3de6e6e6">
 
-        <Spinner
-            android:id="@+id/secondLang"
-            style="@style/Spinners"
-            android:layout_gravity="right"  />
-    </FrameLayout>
+            <Spinner
+                android:id="@+id/firstLang"
+                style="@style/Spinners"
+                android:layout_gravity="left" />
 
-    <TextView
-        android:id="@+id/translatedText"
-        style="@style/Text"
-        android:layout_gravity="center|top"
-        android:layout_marginTop="70dp"
-        android:layout_marginBottom="70dp"
-        android:background="#3de6e6e6"
-        android:textStyle="bold"  />
+            <ImageView
+                android:layout_width="400dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:src="@drawable/ic_arrow_right" />
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom">
+            <Spinner
+                android:id="@+id/secondLang"
+                style="@style/Spinners"
+                android:layout_gravity="right" />
+        </FrameLayout>
 
-        <Button
-            android:id="@+id/translation"
-            android:layout_width="0dp"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1" />
+            android:orientation="vertical">
 
-        <Button
-            android:id="@+id/takePhoto"
-            android:layout_width="0dp"
+            <ScrollView
+                android:layout_width="wrap_content"
+                android:layout_height="200dp"
+                android:layout_marginTop="50dp"
+                android:layout_gravity="center">
+
+                <TextView
+                    android:id="@+id/userText"
+                    style="@style/TranslateText"
+                    android:background="#3de6e6e6"
+                    android:textStyle="bold"  />
+            </ScrollView>
+
+            <ScrollView
+                android:layout_width="wrap_content"
+                android:layout_height="200dp"
+                android:layout_marginTop="30dp"
+                android:layout_gravity="center">
+
+                <TextView
+                    android:id="@+id/translatedText"
+                    style="@style/TranslateText"
+                    android:background="#3de6e6e6"
+                    android:textStyle="bold"  />
+            </ScrollView>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1" />
+            android:layout_gravity="bottom">
 
-        <Button
-            android:id="@+id/openPhoto"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1" />
+            <Button
+                android:id="@+id/translation"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1" />
 
-    </LinearLayout>
+            <Button
+                android:id="@+id/takePhoto"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1" />
+
+            <Button
+                android:id="@+id/openPhoto"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1" />
+
+        </LinearLayout>
 
 </FrameLayout>

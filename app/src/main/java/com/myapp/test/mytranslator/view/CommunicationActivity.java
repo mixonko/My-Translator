@@ -1,11 +1,11 @@
 package com.myapp.test.mytranslator.view;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.speech.RecognizerIntent;
 import android.speech.tts.TextToSpeech;
 import android.support.annotation.Nullable;
+import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
@@ -24,7 +24,7 @@ import com.myapp.test.mytranslator.presenter.CommunicationPresenter;
 import java.util.ArrayList;
 import java.util.Locale;
 
-public class CommunicationActivity extends Activity implements CommunicationTextContract.View, View.OnClickListener {
+public class CommunicationActivity extends AppCompatActivity implements CommunicationTextContract.View, View.OnClickListener {
     private static final int FIRST_RECOGNIZER_REQUEST_CODE = 1;
     private static final int SECOND_RECOGNIZER_REQUEST_CODE = 2;
     public static final String FIRST_LANG_KEY = "first lang";

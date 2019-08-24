@@ -8,6 +8,7 @@ import com.myapp.test.mytranslator.repository.TranslateRepository;
 public class TextRecognizerPresenter implements TextRecognizerContract.Presenter, TranslateTextContract.Repository.OnFinishedListener{
     private TextRecognizerContract.View view;
     private TranslateTextContract.Repository repository;
+    private final String RECOGNIZER_REQUEST_CODE = "recognizer_request_code";
 
     public TextRecognizerPresenter(TextRecognizerContract.View view) {
         this.view = view;
@@ -17,7 +18,7 @@ public class TextRecognizerPresenter implements TextRecognizerContract.Presenter
 
     @Override
     public void onTranslationButtonWasClicked() {
-        view.showTranslate();
+        repository.getTranslatedText(view.getText(), this, view.getFirstLang(), view.getSecondLang(), RECOGNIZER_REQUEST_CODE);
     }
 
     @Override
@@ -36,8 +37,8 @@ public class TextRecognizerPresenter implements TextRecognizerContract.Presenter
     }
 
     @Override
-    public void onFinished(String translatedText, int requestCode) {
-
+    public void onFinished(String translatedText, String requestCode) {
+        if (RECOGNIZER_REQUEST_CODE.equals(requestCode)) view.setText(translatedText);
     }
 
     @Override

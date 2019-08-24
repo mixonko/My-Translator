@@ -7,7 +7,7 @@ import com.myapp.test.mytranslator.repository.TranslateRepository;
 public class GreetingPresenter implements GreetingContract.Presenter, TranslateTextContract.Repository.OnFinishedListener {
     private GreetingContract.View view;
     private TranslateTextContract.Repository repository;
-    private static final int REQUEST_CODE = 10;
+    private final String GREETING_REQUEST_CODE = "greeting_request_code";
 
     public GreetingPresenter(GreetingContract.View view) {
         this.view = view;
@@ -17,7 +17,7 @@ public class GreetingPresenter implements GreetingContract.Presenter, TranslateT
     @Override
     public void onActivityWasCreated() {
         repository.getTranslatedText(view.getGreetingText(), this,
-                view.getFirstLang(), view.getSecondLang(), REQUEST_CODE);
+                view.getFirstLang(), view.getSecondLang(), GREETING_REQUEST_CODE);
     }
 
     @Override
@@ -37,8 +37,8 @@ public class GreetingPresenter implements GreetingContract.Presenter, TranslateT
     }
 
     @Override
-    public void onFinished(String translatedText, int requestCode) {
-        if (REQUEST_CODE == requestCode) view.setText(translatedText);
+    public void onFinished(String translatedText, String requestCode) {
+        if (GREETING_REQUEST_CODE.equals(requestCode)) view.setText(translatedText);
     }
 
     @Override

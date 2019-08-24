@@ -1,9 +1,9 @@
 package com.myapp.test.mytranslator.view;
 
-import android.app.Activity;
 import android.os.Bundle;
 import android.speech.tts.TextToSpeech;
 import android.support.annotation.Nullable;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -16,7 +16,7 @@ import com.myapp.test.mytranslator.presenter.GreetingPresenter;
 
 import java.util.Locale;
 
-public class GreetingActivity extends Activity implements GreetingContract.View {
+public class GreetingActivity extends AppCompatActivity implements GreetingContract.View {
     GreetingContract.Presenter presenter;
     private TextView translatedText;
     private TextView greetingText;
@@ -38,7 +38,7 @@ public class GreetingActivity extends Activity implements GreetingContract.View 
         close.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-               presenter.onCloseButtonWasClicked();
+                presenter.onCloseButtonWasClicked();
             }
         });
         playText = findViewById(R.id.playText);
@@ -114,7 +114,7 @@ public class GreetingActivity extends Activity implements GreetingContract.View 
     }
 
     @Override
-    public void stopTextToSpeech(){
+    public void stopTextToSpeech() {
         if (textToSpeech != null) {
             textToSpeech.stop();
             textToSpeech.shutdown();

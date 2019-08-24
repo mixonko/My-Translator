@@ -1,16 +1,22 @@
 package com.myapp.test.mytranslator.view;
 
-import android.app.Activity;
+import android.Manifest;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.speech.RecognizerIntent;
 import android.speech.tts.TextToSpeech;
 import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityCompat;
+import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -20,16 +26,22 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.guna.ocrlibrary.OCRCapture;
 import com.myapp.test.mytranslator.R;
 import com.myapp.test.mytranslator.contracts.TranslateTextContract;
 import com.myapp.test.mytranslator.myAppContext.MyApplication;
 import com.myapp.test.mytranslator.presenter.TranslateTextPresenter;
+import com.myapp.test.mytranslator.utils.Permissions;
 
 import java.util.ArrayList;
 import java.util.Locale;
 
-public class TranslateTextActivity extends Activity implements TranslateTextContract.View, View.OnClickListener, AdapterView.OnItemSelectedListener {
-    private static final int RECOGNIZER_REQUEST_CODE = 1;
+import static com.guna.ocrlibrary.OcrCaptureActivity.TextBlockObject;
+
+public class TranslateTextActivity extends AppCompatActivity implements TranslateTextContract.View, View.OnClickListener, AdapterView.OnItemSelectedListener {
+    private final int VOICE_REQUEST_CODE = 1;
+    private final int CAMERA_SCAN_REQUEST_CODE = 2;
+    private final int LOAD_IMAGE_REQUEST_CODE = 3;
     private EditText userText;
     private TextView resultText;
     private TextView firstLangText;
@@ -42,7 +54,6 @@ public class TranslateTextActivity extends Activity implements TranslateTextCont
     private Button playResultText;
     private Button copyResultText;
     private Button voiceInput;
-    private Button camera;
     private Button communication;
     private TextToSpeech textToSpeech;
     private Locale locale;
@@ -94,10 +105,32 @@ public class TranslateTextActivity extends Activity implements TranslateTextCont
         deleteUserText.setOnClickListener(this);
         copyResultText = findViewById(R.id.copyResultText);
         copyResultText.setOnClickListener(this);
-        camera = findViewById(R.id.camera);
-        camera.setOnClickListener(this);
         communication = findViewById(R.id.communication);
         communication.setOnClickListener(this);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_main, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.actionCamera:
+                presenter.onCameraButtonWasClicked();
+                break;
+            case R.id.actionPhoto:
+                if (Permissions.checkStoragePermission(MyApplication.getAppContext())) {
+                    presenter.onImageButtonWasClicked();
+                } else {
+                    getPermission();
+                }
+                break;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     @Override
@@ -133,20 +166,32 @@ public class TranslateTextActivity extends Activity implements TranslateTextCont
         intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_PREFERENCE, lang);
         intent.putExtra(RecognizerIntent.EXTRA_ONLY_RETURN_LANGUAGE_PREFERENCE, lang);
         intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, lang);
-        startActivityForResult(intent, RECOGNIZER_REQUEST_CODE);
+        startActivityForResult(intent, VOICE_REQUEST_CODE);
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if (resultCode == RESULT_OK && data != null) {
-            ArrayList<String> voiceResults = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
-            if (!voiceResults.isEmpty()) {
-                userText.setText(voiceResults.get(0));
+        if (data != null) {
+            switch (requestCode) {
+                case VOICE_REQUEST_CODE:
+                    ArrayList<String> voiceResults = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
+                    if (!voiceResults.isEmpty()) {
+                        userText.setText(voiceResults.get(0));
+                    } else {
+                        Toast.makeText(getApplicationContext(), "Ошибка записи", Toast.LENGTH_LONG).show();
+                    }
+                    break;
+                case CAMERA_SCAN_REQUEST_CODE:
+                    userText.setText(data.getStringExtra(TextBlockObject));
+                    break;
+                case LOAD_IMAGE_REQUEST_CODE:
+                    Uri pickedImage = data.getData();
+                    String text = OCRCapture.Builder(this).getTextFromUri(pickedImage);
+                    userText.setText(text);
+                    break;
             }
-        } else {
-            Toast.makeText(getApplicationContext(), "Ошибка записи", Toast.LENGTH_LONG).show();
         }
     }
 
@@ -272,6 +317,27 @@ public class TranslateTextActivity extends Activity implements TranslateTextCont
         }
     }
 
+    public void getPermission() {
+        ActivityCompat.requestPermissions(this,
+                new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 1);
+    }
+
+    @Override
+    public void pickImage() {
+        if (Permissions.checkStoragePermission(MyApplication.getAppContext())) {
+            Intent intentGallery = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+            startActivityForResult(intentGallery, LOAD_IMAGE_REQUEST_CODE);
+        } else getPermission();
+    }
+
+    @Override
+    public void startCamera() {
+        OCRCapture.Builder(this)
+                .setUseFlash(false)
+                .setAutoFocus(true)
+                .buildWithRequestCode(CAMERA_SCAN_REQUEST_CODE);
+    }
+
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
@@ -295,9 +361,6 @@ public class TranslateTextActivity extends Activity implements TranslateTextCont
                 break;
             case R.id.communication:
                 presenter.onCommunicationButtonWasClicked();
-                break;
-            case R.id.camera:
-                presenter.onCameraButtonWasClicked();
                 break;
         }
     }
