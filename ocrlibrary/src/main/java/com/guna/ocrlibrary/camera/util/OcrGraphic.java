@@ -118,6 +118,8 @@ public class OcrGraphic extends GraphicOverlay.Graphic implements Comparable<Ocr
         for (Text currentText : textComponents) {
             float left = translateX(currentText.getBoundingBox().left);
             float bottom = translateY(currentText.getBoundingBox().bottom);
+            float top = translateY(currentText.getBoundingBox().top);
+            sTextPaint.setTextSize(bottom - top);
             canvas.drawText(currentText.getValue(), left, bottom, sTextPaint);
         }
     }

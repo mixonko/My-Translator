@@ -1,12 +1,16 @@
 package com.myapp.test.mytranslator.view;
 
 import android.Manifest;
+import android.content.ActivityNotFoundException;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.speech.RecognizerIntent;
 import android.speech.tts.TextToSpeech;
 import android.support.annotation.Nullable;
@@ -22,6 +26,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -32,7 +37,14 @@ import com.myapp.test.mytranslator.contracts.TranslateTextContract;
 import com.myapp.test.mytranslator.myAppContext.MyApplication;
 import com.myapp.test.mytranslator.presenter.TranslateTextPresenter;
 import com.myapp.test.mytranslator.utils.Permissions;
+import com.theartofdev.edmodo.cropper.CropImage;
 
+import java.io.ByteArrayInputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Locale;
 
@@ -176,21 +188,43 @@ public class TranslateTextActivity extends AppCompatActivity implements Translat
         if (data != null) {
             switch (requestCode) {
                 case VOICE_REQUEST_CODE:
-                    ArrayList<String> voiceResults = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
-                    if (!voiceResults.isEmpty()) {
-                        userText.setText(voiceResults.get(0));
-                    } else {
-                        Toast.makeText(getApplicationContext(), "Ошибка записи", Toast.LENGTH_LONG).show();
+                    if (resultCode == RESULT_OK) {
+                        ArrayList<String> voiceResults = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
+                        if (!voiceResults.isEmpty()) {
+                            userText.setText(voiceResults.get(0));
+                        } else {
+                            Toast.makeText(getApplicationContext(), "Ошибка записи", Toast.LENGTH_LONG).show();
+                        }
                     }
                     break;
                 case CAMERA_SCAN_REQUEST_CODE:
-                    userText.setText(data.getStringExtra(TextBlockObject));
+                        userText.setText(data.getStringExtra(TextBlockObject));
                     break;
                 case LOAD_IMAGE_REQUEST_CODE:
-                    Uri pickedImage = data.getData();
-                    String text = OCRCapture.Builder(this).getTextFromUri(pickedImage);
-                    userText.setText(text);
+                    if (resultCode == RESULT_OK) {
+                        Uri pickedImage = data.getData();
+                        CropImage.activity(pickedImage)
+                                .start(this);
+                    }
                     break;
+                case CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE:
+                    CropImage.ActivityResult result = CropImage.getActivityResult(data);
+                    if (resultCode == RESULT_OK) {
+                        Uri resultUri = result.getUri();
+                        Bitmap bitmap = null;
+                        try {
+                            bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), resultUri);
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                        String cropText = OCRCapture.Builder(this).getTextFromBitmap(bitmap);
+                        userText.setText(String.valueOf(cropText));
+                    } else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
+                        Exception error = result.getError();
+                        Toast.makeText(MyApplication.getAppContext(), "Ошибка; " + error, Toast.LENGTH_LONG).show();
+                    }
+                    break;
+
             }
         }
     }
@@ -331,7 +365,7 @@ public class TranslateTextActivity extends AppCompatActivity implements Translat
     }
 
     @Override
-    public void startCamera() {
+    public void startScanCamera() {
         OCRCapture.Builder(this)
                 .setUseFlash(false)
                 .setAutoFocus(true)
@@ -387,4 +421,5 @@ public class TranslateTextActivity extends AppCompatActivity implements Translat
     public void onNothingSelected(AdapterView<?> adapterView) {
 
     }
+
 }

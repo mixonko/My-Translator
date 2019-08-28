@@ -32,7 +32,13 @@ dependencies {
     implementation 'com.squareup.retrofit2:retrofit:2.5.0'
     implementation 'com.squareup.retrofit2:converter-gson:2.3.0'
 
+    //play-services
     implementation 'com.google.android.gms:play-services-vision:12.0.1'
+
+    //OCR
     api project(path: ':ocrlibrary')
+
+    //crop image
+    implementation 'com.theartofdev.edmodo:android-image-cropper:2.7.0'
 
 }

@@ -22,7 +22,7 @@ public interface TranslateTextContract {
         void deleteResultText();
         void stopTextToSpeech();
         void pickImage();
-        void startCamera();
+        void startScanCamera();
     }
 
     interface Presenter{

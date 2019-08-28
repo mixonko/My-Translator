@@ -2,7 +2,6 @@ package com.myapp.test.mytranslator.presenter;
 
 import com.myapp.test.mytranslator.contracts.TranslateTextContract;
 import com.myapp.test.mytranslator.repository.TranslateRepository;
-import com.myapp.test.mytranslator.utils.InternetConnection;
 
 public class TranslateTextPresenter implements TranslateTextContract.Presenter, TranslateTextContract.Repository.OnFinishedListener {
     private TranslateTextContract.View view;
@@ -62,7 +61,7 @@ public class TranslateTextPresenter implements TranslateTextContract.Presenter, 
 
     @Override
     public void onCameraButtonWasClicked() {
-        view.startCamera();
+        view.startScanCamera();
     }
 
     @Override
