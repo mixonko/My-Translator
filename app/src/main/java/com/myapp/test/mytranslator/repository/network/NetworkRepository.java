@@ -1,8 +1,8 @@
-package com.myapp.test.mytranslator.repository;
+package com.myapp.test.mytranslator.repository.network;
 
 import com.myapp.test.mytranslator.api.RetroClient;
 import com.myapp.test.mytranslator.contracts.TranslateTextContract;
-import com.myapp.test.mytranslator.model.TranslatedText;
+import com.myapp.test.mytranslator.entity.TranslatedText;
 import com.myapp.test.mytranslator.myAppContext.MyApplication;
 import com.myapp.test.mytranslator.utils.InternetConnection;
 
@@ -10,7 +10,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class TranslateRepository implements TranslateTextContract.Repository {
+public class NetworkRepository implements TranslateTextContract.Repository {
     private String translatedText;
 
     @Override

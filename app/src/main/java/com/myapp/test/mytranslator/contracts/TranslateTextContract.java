@@ -17,7 +17,6 @@ public interface TranslateTextContract {
         String getFirstLang();
         String getSecondLang();
         void startCommunicationActivity();
-        void startTextRecognizerActivity();
         void setTextViewLanguage();
         void deleteResultText();
         void stopTextToSpeech();

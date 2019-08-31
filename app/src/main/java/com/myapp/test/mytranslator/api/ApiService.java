@@ -1,6 +1,6 @@
 package com.myapp.test.mytranslator.api;
 
-import com.myapp.test.mytranslator.model.TranslatedText;
+import com.myapp.test.mytranslator.entity.TranslatedText;
 
 import retrofit2.Call;
 import retrofit2.http.GET;

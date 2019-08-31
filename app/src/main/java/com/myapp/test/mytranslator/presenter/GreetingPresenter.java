@@ -2,7 +2,7 @@ package com.myapp.test.mytranslator.presenter;
 
 import com.myapp.test.mytranslator.contracts.GreetingContract;
 import com.myapp.test.mytranslator.contracts.TranslateTextContract;
-import com.myapp.test.mytranslator.repository.TranslateRepository;
+import com.myapp.test.mytranslator.repository.network.NetworkRepository;
 
 public class GreetingPresenter implements GreetingContract.Presenter, TranslateTextContract.Repository.OnFinishedListener {
     private GreetingContract.View view;
@@ -11,7 +11,7 @@ public class GreetingPresenter implements GreetingContract.Presenter, TranslateT
 
     public GreetingPresenter(GreetingContract.View view) {
         this.view = view;
-        repository = new TranslateRepository();
+        repository = new NetworkRepository();
     }
 
     @Override

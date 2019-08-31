@@ -8,6 +8,9 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -40,7 +43,6 @@ public class CommunicationActivity extends AppCompatActivity implements Communic
     private Button playSecondText;
     private Button deleteFirstText;
     private Button deleteSecondText;
-    private Button greeting;
     private Spinner firstLang;
     private Spinner secondLang;
     private TextToSpeech textToSpeech;
@@ -51,6 +53,8 @@ public class CommunicationActivity extends AppCompatActivity implements Communic
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_communication);
 
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
         presenter = new CommunicationPresenter(this);
 
         firstMic = findViewById(R.id.firstMic);
@@ -58,10 +62,10 @@ public class CommunicationActivity extends AppCompatActivity implements Communic
         secondMic = findViewById(R.id.secondMic);
         secondMic.setOnClickListener(this);
         firstLang = findViewById(R.id.firstLang);
-        firstLang.setAdapter(getSpinnerAdapter());
+        firstLang.setAdapter(getFirstSpinnerAdapter());
         firstLang.setSelection(64);
         secondLang = findViewById(R.id.secondLang);
-        secondLang.setAdapter(getSpinnerAdapter());
+        secondLang.setAdapter(getSecondSpinnerAdapter());
         secondLang.setSelection(3);
         firstEditText = findViewById(R.id.firstEditText);
         firstEditText.addTextChangedListener(new TextWatcher() {
@@ -111,8 +115,26 @@ public class CommunicationActivity extends AppCompatActivity implements Communic
         deleteFirstText.setOnClickListener(this);
         deleteSecondText = findViewById(R.id.deleteSecondText);
         deleteSecondText.setOnClickListener(this);
-        greeting = findViewById(R.id.greeting);
-        greeting.setOnClickListener(this);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_comm, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.greeting:
+                presenter.onGreetingButtonWasClicked();
+                break;
+            case android.R.id.home:
+                finish();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     @Override
@@ -284,10 +306,17 @@ public class CommunicationActivity extends AppCompatActivity implements Communic
         }
     }
 
-    private ArrayAdapter<String> getSpinnerAdapter() {
+    private ArrayAdapter<String> getFirstSpinnerAdapter() {
         String[] languages = getResources().getStringArray(R.array.languages);
         ArrayAdapter<String> adapter = new ArrayAdapter(this, android.R.layout.simple_spinner_item, languages);
-        adapter.setDropDownViewResource(android.R.layout.simple_list_item_single_choice);
+        adapter.setDropDownViewResource(R.layout.my_first_spinner_layout);
+        return adapter;
+    }
+
+    private ArrayAdapter<String> getSecondSpinnerAdapter() {
+        String[] languages = getResources().getStringArray(R.array.languages);
+        ArrayAdapter<String> adapter = new ArrayAdapter(this, android.R.layout.simple_spinner_item, languages);
+        adapter.setDropDownViewResource(R.layout.my_second_spinner_layout);
         return adapter;
     }
 

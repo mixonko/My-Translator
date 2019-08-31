@@ -195,4 +195,5 @@
     <string name="eo">эсперанто</string>
     <string name="jv">яванский</string>
     <string name="ja">японский</string>
+    <string name="greeting">Общение</string>
 </resources>

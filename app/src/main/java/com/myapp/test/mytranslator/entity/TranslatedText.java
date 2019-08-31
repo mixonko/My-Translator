@@ -1,4 +1,4 @@
-package com.myapp.test.mytranslator.model;
+package com.myapp.test.mytranslator.entity;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;

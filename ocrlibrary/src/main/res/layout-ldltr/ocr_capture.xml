@@ -24,17 +24,18 @@
 
     </com.guna.ocrlibrary.camera.CameraSourcePreview>
 
-    <ImageButton
-        android:padding="10dp"
-        android:tint="?attr/colorAccent"
-        style="@style/Widget.AppCompat.Button.Borderless"
-        android:src="@drawable/ic_done_white_24dp"
-        app:layout_constraintEnd_toEndOf="parent"
+    <Button
+        android:layout_width="140dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="564dp"
+        android:layout_marginEnd="120dp"
+        android:background="@drawable/button_selector"
+        android:gravity="center"
         android:onClick="selectAll"
-        app:layout_constraintTop_toTopOf="parent"
-        android:contentDescription="@string/app_name"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:text="@string/done"
+        android:textSize="15dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </android.support.constraint.ConstraintLayout>
 

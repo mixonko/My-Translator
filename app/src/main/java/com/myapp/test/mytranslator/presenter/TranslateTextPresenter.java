@@ -1,7 +1,7 @@
 package com.myapp.test.mytranslator.presenter;
 
 import com.myapp.test.mytranslator.contracts.TranslateTextContract;
-import com.myapp.test.mytranslator.repository.TranslateRepository;
+import com.myapp.test.mytranslator.repository.network.NetworkRepository;
 
 public class TranslateTextPresenter implements TranslateTextContract.Presenter, TranslateTextContract.Repository.OnFinishedListener {
     private TranslateTextContract.View view;
@@ -10,7 +10,7 @@ public class TranslateTextPresenter implements TranslateTextContract.Presenter, 
 
     public TranslateTextPresenter(TranslateTextContract.View view) {
         this.view = view;
-        repository = new TranslateRepository();
+        repository = new NetworkRepository();
     }
 
     @Override

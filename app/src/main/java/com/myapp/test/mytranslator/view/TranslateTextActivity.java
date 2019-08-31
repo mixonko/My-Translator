@@ -1,13 +1,11 @@
 package com.myapp.test.mytranslator.view;
 
 import android.Manifest;
-import android.content.ActivityNotFoundException;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -39,12 +37,7 @@ import com.myapp.test.mytranslator.presenter.TranslateTextPresenter;
 import com.myapp.test.mytranslator.utils.Permissions;
 import com.theartofdev.edmodo.cropper.CropImage;
 
-import java.io.ByteArrayInputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Locale;
 
@@ -325,11 +318,6 @@ public class TranslateTextActivity extends AppCompatActivity implements Translat
     @Override
     public void startCommunicationActivity() {
         startActivity(new Intent(MyApplication.getAppContext(), CommunicationActivity.class));
-    }
-
-    @Override
-    public void startTextRecognizerActivity() {
-        startActivity(new Intent(MyApplication.getAppContext(), TextRecognizerActivity.class));
     }
 
     @Override

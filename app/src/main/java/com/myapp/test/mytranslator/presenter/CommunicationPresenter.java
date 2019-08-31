@@ -4,7 +4,7 @@ import android.app.Activity;
 
 import com.myapp.test.mytranslator.contracts.CommunicationTextContract;
 import com.myapp.test.mytranslator.contracts.TranslateTextContract;
-import com.myapp.test.mytranslator.repository.TranslateRepository;
+import com.myapp.test.mytranslator.repository.network.NetworkRepository;
 
 public class CommunicationPresenter extends Activity implements CommunicationTextContract.Presenter, TranslateTextContract.Repository.OnFinishedListener{
     private CommunicationTextContract.View view;
@@ -16,7 +16,7 @@ public class CommunicationPresenter extends Activity implements CommunicationTex
 
     public CommunicationPresenter(CommunicationTextContract.View view) {
         this.view = view;
-        repository = new TranslateRepository();
+        repository = new NetworkRepository();
     }
 
     @Override

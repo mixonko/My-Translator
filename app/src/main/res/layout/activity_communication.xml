@@ -2,14 +2,12 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical" >
+    android:background="@color/colorWhiteDark"
+    android:orientation="vertical">
 
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:background="#FF205DCD"
-        android:orientation="vertical">
+        style="@style/TextLayouts"
+        android:background="@color/colorWhite">
 
         <FrameLayout
             android:layout_width="match_parent"
@@ -38,23 +36,20 @@
 
                 <TextView
                     android:id="@+id/firstTextView"
-                    style="@style/Text" />
+                    style="@style/Text"
+                    android:textColor="@color/colorBlue" />
             </ScrollView>
 
             <EditText
                 android:id="@+id/firstEditText"
                 style="@style/Text"
-                android:hint="@string/userText" />
+                android:hint="@string/userText"
+                android:textColor="@color/colorBlue" />
         </FrameLayout>
 
     </LinearLayout>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:background="#CD0014"
-        android:orientation="vertical">
+    <LinearLayout style="@style/TextLayouts">
 
         <FrameLayout
             android:layout_width="match_parent"
@@ -83,65 +78,65 @@
 
                 <TextView
                     android:id="@+id/secondTextView"
-                    style="@style/Text" />
+                    style="@style/Text"
+                    android:textColor="@color/colorPurple" />
             </ScrollView>
 
             <EditText
                 android:id="@+id/secondEditText"
                 style="@style/Text"
-                android:hint="@string/userText" />
+                android:hint="@string/userText"
+                android:textColor="@color/colorPurple" />
         </FrameLayout>
 
     </LinearLayout>
 
     <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:background="@color/colorWhite">
 
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="left"
-            android:orientation="vertical">
+        <Spinner
+            android:id="@+id/firstLang"
+            style="@style/Spinners"
+            android:layout_gravity="left" />
 
-            <Spinner
-                android:id="@+id/firstLang"
-                style="@style/Spinners" />
+        <Spinner
+            android:id="@+id/secondLang"
+            style="@style/Spinners"
+            android:layout_gravity="right" />
+    </FrameLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:gravity="center">
+
+        <LinearLayout style="@style/ButtonsLayout">
 
             <Button
                 android:id="@+id/firstMic"
-                style="@style/MicButtons"
-                android:layout_gravity="center"
-                android:background="@drawable/ic_first_mic" />
+                style="@style/CommunicationButton"
+                android:background="@drawable/my_mic_button_selector" />
+
         </LinearLayout>
 
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center|bottom"
-            android:orientation="vertical">
+        <View
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
 
-            <Button
-                android:id="@+id/greeting"
-                style="@style/MicButtons"
-                android:background="@drawable/ic_play_button" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="right"
-            android:orientation="vertical">
-
-            <Spinner
-                android:id="@+id/secondLang"
-                style="@style/Spinners" />
+        <LinearLayout style="@style/ButtonsLayout">
 
             <Button
                 android:id="@+id/secondMic"
-                style="@style/MicButtons"
-                android:layout_gravity="center"
-                android:background="@drawable/ic_second_mic" />
+                style="@style/CommunicationButton"
+                android:background="@drawable/my_mic_but_sec_selector" />
+
         </LinearLayout>
-    </FrameLayout>
+
+    </LinearLayout>
+
 </LinearLayout>

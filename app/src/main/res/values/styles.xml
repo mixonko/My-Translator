@@ -1,41 +1,69 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
 
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorPrimary">@color/colorBlue</item>
+        <item name="windowActionBar">true</item>
+        <item name="windowNoTitle">false</item>
+        <item name="colorPrimaryDark">@color/colorBlueDark</item>
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
     <style name="Buttons">
         <item name="android:layout_width">30dp</item>
         <item name="android:layout_height">30dp</item>
+
     </style>
 
     <style name="UserButtons" parent="Buttons">
         <item name="android:visibility">invisible</item>
     </style>
 
-    <style name="TranslateText">
+    <style name="EditText">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:textColor">@color/colorBlack</item>
-        <item name="android:textSize">30dp</item>
+        <item name="android:textSize">30sp</item>
+        <item name="android:background">@null</item>
         <item name="android:layout_marginLeft">30dp</item>
         <item name="android:layout_marginRight">30dp</item>
     </style>
 
-    <style name="Text" parent="TranslateText">
+    <style name="ResultText" parent="EditText"></style>
+
+    <style name="Text" parent="EditText">
+        <item name="android:visibility">invisible</item>
+    </style>
+
+    <style name="LangTextView">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_gravity">center</item>
         <item name="android:visibility">invisible</item>
     </style>
 
     <style name="Spinners">
-        <item name="android:layout_width">130dp</item>
-        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">140dp</item>
+        <item name="android:layout_height">48dp</item>
+        <item name="android:textColorLink">@drawable/my_swap_button_selector</item>
+    </style>
+
+    <style name="CommunicationButton">
+        <item name="android:layout_width">50dp</item>
+        <item name="android:layout_height">40dp</item>
+
+    </style>
+
+    <style name="ButtonsLayout">
+        <item name="android:layout_width">140dp</item>
+        <item name="android:layout_height">48dp</item>
+        <item name="android:gravity">center</item>
+        <item name="android:background">@drawable/my_layout_shape</item>
     </style>
 
     <style name="TextLayouts">
         <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">155dp</item>
+        <item name="android:layout_height">0dp</item>
+        <item name="android:layout_weight">1</item>
         <item name="android:orientation">vertical</item>
         <item name="android:layout_marginTop">5dp</item>
         <item name="android:background">#fffefe</item>
@@ -50,4 +78,11 @@
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
     </style>
+
+    <style name="GreetingTextView">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">15sp</item>
+    </style>
+
 </resources>
