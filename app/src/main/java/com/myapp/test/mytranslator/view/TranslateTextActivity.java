@@ -13,6 +13,7 @@ import android.speech.RecognizerIntent;
 import android.speech.tts.TextToSpeech;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -58,8 +59,8 @@ public class TranslateTextActivity extends AppCompatActivity implements Translat
     private Button deleteUserText;
     private Button playResultText;
     private Button copyResultText;
-    private Button voiceInput;
-    private Button communication;
+    private ImageView voiceInput;
+    private ImageView communication;
     private TextToSpeech textToSpeech;
     private Locale locale;
     private TranslateTextContract.Presenter presenter;
@@ -68,6 +69,10 @@ public class TranslateTextActivity extends AppCompatActivity implements Translat
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_translate_text);
+
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setDisplayHomeAsUpEnabled(true);
+        actionBar.setTitle(R.string.translator);
 
         presenter = new TranslateTextPresenter(this);
 

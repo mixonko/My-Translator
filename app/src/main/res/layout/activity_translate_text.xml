@@ -103,29 +103,22 @@
         android:layout_marginTop="5dp"
         android:gravity="center">
 
-        <LinearLayout style="@style/ButtonsLayout">
-
-            <Button
-                android:id="@+id/recorder"
-                style="@style/CommunicationButton"
-                android:background="@drawable/my_mic_button_selector" />
-
-        </LinearLayout>
+        <ImageView
+            android:id="@+id/recorder"
+            style="@style/ButtonsLayout"
+            android:src="@drawable/my_mic_button_selector"/>
 
         <View
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="0dp"
-            android:layout_weight="1" />
+            android:layout_weight="1"/>
 
-        <LinearLayout style="@style/ButtonsLayout">
-
-            <Button
-                android:id="@+id/communication"
-                style="@style/CommunicationButton"
-                android:background="@drawable/my_comm_button_selector" />
-
-        </LinearLayout>
-
+        <ImageView
+            android:id="@+id/communication"
+            style="@style/ButtonsLayout"
+            android:src="@drawable/my_comm_button_selector" />
     </LinearLayout>
+
+
 
 </LinearLayout>

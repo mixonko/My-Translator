@@ -19,6 +19,7 @@
             style="@style/Buttons"
             android:layout_gravity="right"
             android:background="@drawable/ic_del_text_button" />
+
     </FrameLayout>
 
     <ImageView
@@ -31,6 +32,7 @@
         android:id="@+id/translatedText"
         style="@style/GreetingTextView"
         android:textSize="20sp"
+        android:textStyle="bold"
         android:textColor="@color/colorBlack"/>
 
     <Button

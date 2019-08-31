@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.speech.RecognizerIntent;
 import android.speech.tts.TextToSpeech;
 import android.support.annotation.Nullable;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -12,9 +13,11 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -37,8 +40,8 @@ public class CommunicationActivity extends AppCompatActivity implements Communic
     private EditText secondEditText;
     private TextView firstTextView;
     private TextView secondTextView;
-    private Button firstMic;
-    private Button secondMic;
+    private ImageView firstMic;
+    private ImageView secondMic;
     private Button playFirstText;
     private Button playSecondText;
     private Button deleteFirstText;
@@ -52,8 +55,10 @@ public class CommunicationActivity extends AppCompatActivity implements Communic
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_communication);
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setDisplayHomeAsUpEnabled(true);
+        actionBar.setTitle(R.string.greeting);
 
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         presenter = new CommunicationPresenter(this);
 
@@ -64,8 +69,10 @@ public class CommunicationActivity extends AppCompatActivity implements Communic
         firstLang = findViewById(R.id.firstLang);
         firstLang.setAdapter(getFirstSpinnerAdapter());
         firstLang.setSelection(64);
+        firstLang.setOnItemSelectedListener(firstListener);
         secondLang = findViewById(R.id.secondLang);
         secondLang.setAdapter(getSecondSpinnerAdapter());
+        secondLang.setOnItemSelectedListener(secondListener);
         secondLang.setSelection(3);
         firstEditText = findViewById(R.id.firstEditText);
         firstEditText.addTextChangedListener(new TextWatcher() {
@@ -306,20 +313,6 @@ public class CommunicationActivity extends AppCompatActivity implements Communic
         }
     }
 
-    private ArrayAdapter<String> getFirstSpinnerAdapter() {
-        String[] languages = getResources().getStringArray(R.array.languages);
-        ArrayAdapter<String> adapter = new ArrayAdapter(this, android.R.layout.simple_spinner_item, languages);
-        adapter.setDropDownViewResource(R.layout.my_first_spinner_layout);
-        return adapter;
-    }
-
-    private ArrayAdapter<String> getSecondSpinnerAdapter() {
-        String[] languages = getResources().getStringArray(R.array.languages);
-        ArrayAdapter<String> adapter = new ArrayAdapter(this, android.R.layout.simple_spinner_item, languages);
-        adapter.setDropDownViewResource(R.layout.my_second_spinner_layout);
-        return adapter;
-    }
-
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
@@ -374,4 +367,42 @@ public class CommunicationActivity extends AppCompatActivity implements Communic
         intent.putExtra(SECOND_LANG_KEY, secondLang);
         startActivity(intent);
     }
+
+    private ArrayAdapter<String> getFirstSpinnerAdapter() {
+        String[] languages = getResources().getStringArray(R.array.languages);
+        ArrayAdapter<String> adapter = new ArrayAdapter(this, android.R.layout.simple_spinner_item, languages);
+        adapter.setDropDownViewResource(R.layout.my_first_spinner_layout);
+        return adapter;
+    }
+
+    private ArrayAdapter<String> getSecondSpinnerAdapter() {
+        String[] languages = getResources().getStringArray(R.array.languages);
+        ArrayAdapter<String> adapter = new ArrayAdapter(this, android.R.layout.simple_spinner_item, languages);
+        adapter.setDropDownViewResource(R.layout.my_second_spinner_layout);
+        return adapter;
+    }
+
+    private AdapterView.OnItemSelectedListener firstListener = new AdapterView.OnItemSelectedListener() {
+        @Override
+        public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+            ((TextView) firstLang.getChildAt(0)).setTextColor(getResources().getColor(R.color.colorBlue));
+        }
+
+        @Override
+        public void onNothingSelected(AdapterView<?> parent) {
+
+        }
+    };
+
+    private AdapterView.OnItemSelectedListener secondListener = new AdapterView.OnItemSelectedListener() {
+        @Override
+        public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+            ((TextView) secondLang.getChildAt(0)).setTextColor(getResources().getColor(R.color.colorPurple));
+        }
+
+        @Override
+        public void onNothingSelected(AdapterView<?> parent) {
+
+        }
+    };
 }

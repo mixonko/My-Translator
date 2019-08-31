@@ -114,28 +114,20 @@
         android:layout_marginTop="5dp"
         android:gravity="center">
 
-        <LinearLayout style="@style/ButtonsLayout">
-
-            <Button
-                android:id="@+id/firstMic"
-                style="@style/CommunicationButton"
-                android:background="@drawable/my_mic_button_selector" />
-
-        </LinearLayout>
+        <ImageView
+            android:id="@+id/firstMic"
+            style="@style/ButtonsLayout"
+            android:src="@drawable/my_mic_button_selector"/>
 
         <View
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_weight="1" />
 
-        <LinearLayout style="@style/ButtonsLayout">
-
-            <Button
-                android:id="@+id/secondMic"
-                style="@style/CommunicationButton"
-                android:background="@drawable/my_mic_but_sec_selector" />
-
-        </LinearLayout>
+        <ImageView
+            android:id="@+id/secondMic"
+            style="@style/ButtonsLayout"
+            android:src="@drawable/my_mic_but_sec_selector"/>
 
     </LinearLayout>
 

@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">My Translator</string>
+    <string name="app_name">Translator</string>
     <string name="text">Ввести текст</string>
     <string name="camera_text">Текст с камеры</string>
     <string name="voice_text">Голосовой текст</string>
@@ -196,4 +196,5 @@
     <string name="jv">яванский</string>
     <string name="ja">японский</string>
     <string name="greeting">Общение</string>
+    <string name="translator">Переводчик</string>
 </resources>
