@@ -70,8 +70,7 @@ public class TranslateTextActivity extends AppCompatActivity implements Translat
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_translate_text);
 
-        ActionBar actionBar = getSupportActionBar();
-        actionBar.setDisplayHomeAsUpEnabled(true);
+        ActionBar actionBar = getSupportActionBar(); 
         actionBar.setTitle(R.string.translator);
 
         presenter = new TranslateTextPresenter(this);
