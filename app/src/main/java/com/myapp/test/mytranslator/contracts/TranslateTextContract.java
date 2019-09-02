@@ -8,8 +8,8 @@ public interface TranslateTextContract {
         void showNoConnection();
         void showError(Throwable t);
         void voiceInputText(String lang);
-        void playUserText();
-        void playResultText();
+        void playUserText(final String lang);
+        void playResultText(final String lang);
         void showButtons();
         void hideButtons();
         void swapLanguages();

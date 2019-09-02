@@ -41,7 +41,7 @@
                 android:id="@+id/playUserText"
                 style="@style/UserButtons"
                 android:layout_gravity="left"
-                android:background="@drawable/ic_play_button" />
+                android:background="@drawable/my_play_but_black_selector" />
 
             <TextView
                 android:id="@+id/firstLangText"
@@ -51,12 +51,12 @@
                 android:id="@+id/deleteUserText"
                 style="@style/UserButtons"
                 android:layout_gravity="right"
-                android:background="@drawable/ic_del_text_button" />
+                android:background="@drawable/my_del_but_black_selector" />
         </FrameLayout>
 
         <EditText
             android:id="@+id/userText"
-            style="@style/EditText"
+            style="@style/UserText"
             android:defaultFocusHighlightEnabled="true"
             android:hint="@string/userText" />
     </LinearLayout>
@@ -73,7 +73,7 @@
                 android:id="@+id/playResultText"
                 style="@style/UserButtons"
                 android:layout_gravity="left"
-                android:background="@drawable/ic_play_button" />
+                android:background="@drawable/my_play_but_black_selector" />
 
             <TextView
                 android:id="@+id/secondLangText"
@@ -83,7 +83,7 @@
                 android:id="@+id/copyResultText"
                 style="@style/UserButtons"
                 android:layout_gravity="right"
-                android:background="@drawable/ic_copy_result" />
+                android:background="@drawable/my_copy_selector" />
         </FrameLayout>
 
         <ScrollView
@@ -106,19 +106,18 @@
         <ImageView
             android:id="@+id/recorder"
             style="@style/ButtonsLayout"
-            android:src="@drawable/my_mic_button_selector"/>
+            android:src="@drawable/my_mic_but_blue_selector" />
 
         <View
             android:layout_width="wrap_content"
             android:layout_height="0dp"
-            android:layout_weight="1"/>
+            android:layout_weight="1" />
 
         <ImageView
             android:id="@+id/communication"
             style="@style/ButtonsLayout"
             android:src="@drawable/my_comm_button_selector" />
     </LinearLayout>
-
 
 
 </LinearLayout>

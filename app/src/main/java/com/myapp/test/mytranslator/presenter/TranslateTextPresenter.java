@@ -27,13 +27,13 @@ public class TranslateTextPresenter implements TranslateTextContract.Presenter, 
     @Override
     public void onPlayUserTextwasClicked() {
         view.stopTextToSpeech();
-        view.playUserText();
+        view.playUserText(view.getFirstLang());
     }
 
     @Override
     public void onPlayResultTextWasClicked() {
         view.stopTextToSpeech();
-        view.playResultText();
+        view.playResultText(view.getSecondLang());
 
     }
 

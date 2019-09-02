@@ -9,6 +9,7 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.HapticFeedbackConstants;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -49,7 +50,6 @@ public class CommunicationActivity extends AppCompatActivity implements Communic
     private Spinner firstLang;
     private Spinner secondLang;
     private TextToSpeech textToSpeech;
-    private Locale locale;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -69,11 +69,11 @@ public class CommunicationActivity extends AppCompatActivity implements Communic
         firstLang = findViewById(R.id.firstLang);
         firstLang.setAdapter(getFirstSpinnerAdapter());
         firstLang.setSelection(64);
-        firstLang.setOnItemSelectedListener(firstListener);
         secondLang = findViewById(R.id.secondLang);
         secondLang.setAdapter(getSecondSpinnerAdapter());
-        secondLang.setOnItemSelectedListener(secondListener);
         secondLang.setSelection(3);
+        firstLang.setOnItemSelectedListener(firstListener);
+        secondLang.setOnItemSelectedListener(secondListener);
         firstEditText = findViewById(R.id.firstEditText);
         firstEditText.addTextChangedListener(new TextWatcher() {
             @Override
@@ -166,41 +166,27 @@ public class CommunicationActivity extends AppCompatActivity implements Communic
 
     @Override
     public void playFirstTextView(final String lang) {
-        textToSpeech = new TextToSpeech(MyApplication.getAppContext(), new TextToSpeech.OnInitListener() {
-            @Override
-            public void onInit(int status) {
-                if (status == TextToSpeech.SUCCESS) {
-                    locale = new Locale(lang);
-                    int result = textToSpeech.setLanguage(locale);
-                    if (result == TextToSpeech.LANG_MISSING_DATA
-                            || result == TextToSpeech.LANG_NOT_SUPPORTED) {
-                        Toast.makeText(MyApplication.getAppContext(), "Извините, этот язык не поддерживается", Toast.LENGTH_LONG).show();
-                    } else {
-                        textToSpeech.speak(firstTextView.getText().toString(), TextToSpeech.QUEUE_FLUSH, null);
-                    }
-                } else {
-                    Toast.makeText(MyApplication.getAppContext(), "Ошибка воспроизведения", Toast.LENGTH_LONG).show();
-                }
-            }
-        });
+        playText(firstTextView.getText().toString(), new Locale(lang));
     }
 
     @Override
     public void playSecondTextView(final String lang) {
+        playText(secondTextView.getText().toString(), new Locale(lang));
+
+    }
+
+    private void playText(final String text, final Locale locale){
         textToSpeech = new TextToSpeech(MyApplication.getAppContext(), new TextToSpeech.OnInitListener() {
             @Override
             public void onInit(int status) {
                 if (status == TextToSpeech.SUCCESS) {
-                    locale = new Locale(lang);
                     int result = textToSpeech.setLanguage(locale);
                     if (result == TextToSpeech.LANG_MISSING_DATA
                             || result == TextToSpeech.LANG_NOT_SUPPORTED) {
-                        Toast.makeText(MyApplication.getAppContext(), "Извините, этот язык не поддерживается", Toast.LENGTH_LONG).show();
+                        Toast.makeText(MyApplication.getAppContext(), R.string.sorry, Toast.LENGTH_LONG).show();
                     } else {
-                        textToSpeech.speak(secondTextView.getText().toString(), TextToSpeech.QUEUE_FLUSH, null);
+                        textToSpeech.speak(text, TextToSpeech.QUEUE_FLUSH, null);
                     }
-                } else {
-                    Toast.makeText(MyApplication.getAppContext(), "Ошибка воспроизведения", Toast.LENGTH_LONG).show();
                 }
             }
         });
@@ -273,6 +259,7 @@ public class CommunicationActivity extends AppCompatActivity implements Communic
 
     @Override
     public void deleteSecondGroup() {
+        showSecondTextGroup();
         firstTextView.setText("");
         secondEditText.setText(" ");
     }
@@ -308,13 +295,12 @@ public class CommunicationActivity extends AppCompatActivity implements Communic
                     presenter.secondTextWasInserted();
                     break;
             }
-        } else {
-            Toast.makeText(getApplicationContext(), "Ошибка записи", Toast.LENGTH_LONG).show();
         }
     }
 
     @Override
     public void onClick(View view) {
+        hapticFeedback(view);
         switch (view.getId()) {
             case R.id.firstMic:
                 presenter.onFirstMicButtonWasClicked();
@@ -405,4 +391,9 @@ public class CommunicationActivity extends AppCompatActivity implements Communic
 
         }
     };
+
+    private void hapticFeedback(View view) {
+        view.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
+    }
+
 }

@@ -12,13 +12,13 @@
         <TextView
             android:id="@+id/textView"
             style="@style/GreetingTextView"
-            android:text="@string/greeting_tutorial"/>
+            android:text="@string/greeting_tutorial" />
 
         <Button
             android:id="@+id/close"
             style="@style/Buttons"
             android:layout_gravity="right"
-            android:background="@drawable/ic_del_text_button" />
+            android:background="@drawable/my_del_but_black_selector" />
 
     </FrameLayout>
 
@@ -26,22 +26,22 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:src="@drawable/greeting"/>
+        android:src="@drawable/greeting" />
 
     <TextView
         android:id="@+id/translatedText"
         style="@style/GreetingTextView"
-        android:textSize="20sp"
-        android:textStyle="bold"
-        android:textColor="@color/colorBlack"/>
+        android:textStyle="bold" />
 
     <Button
         android:id="@+id/playText"
         style="@style/Buttons"
-        android:background="@drawable/ic_play_button"/>
+        android:background="@drawable/my_play_but_black_selector" />
 
     <TextView
         android:id="@+id/greetingText"
-        style="@style/GreetingTextView"
-        android:text="@string/greeting_text"/>
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/greeting_text"
+        android:textSize="15sp" />
 </LinearLayout>

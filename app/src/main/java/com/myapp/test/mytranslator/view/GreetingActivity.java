@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.speech.tts.TextToSpeech;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.view.HapticFeedbackConstants;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -17,7 +18,7 @@ import com.myapp.test.mytranslator.presenter.GreetingPresenter;
 import java.util.Locale;
 
 public class GreetingActivity extends AppCompatActivity implements GreetingContract.View {
-    GreetingContract.Presenter presenter;
+    private GreetingContract.Presenter presenter;
     private TextView translatedText;
     private TextView greetingText;
     private Button close;
@@ -36,8 +37,10 @@ public class GreetingActivity extends AppCompatActivity implements GreetingContr
         greetingText = findViewById(R.id.greetingText);
         close = findViewById(R.id.close);
         close.setOnClickListener(new View.OnClickListener() {
+
             @Override
             public void onClick(View view) {
+                hapticFeedback(view);
                 presenter.onCloseButtonWasClicked();
             }
         });
@@ -45,6 +48,7 @@ public class GreetingActivity extends AppCompatActivity implements GreetingContr
         playText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                hapticFeedback(view);
                 presenter.onPlayTextButtonWasClicked();
             }
         });
@@ -120,4 +124,9 @@ public class GreetingActivity extends AppCompatActivity implements GreetingContr
             textToSpeech.shutdown();
         }
     }
+
+    private void hapticFeedback(View view){
+        view.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
+    }
+
 }

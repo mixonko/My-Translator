@@ -23,6 +23,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.GestureDetector;
+import android.view.HapticFeedbackConstants;
 import android.view.MotionEvent;
 import android.view.ScaleGestureDetector;
 import android.view.View;
@@ -345,6 +346,8 @@ public final class OcrCaptureActivity extends AppCompatActivity {
     }
 
     public void selectAll(View view) {
+
+        view.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
         Set<OcrGraphic> graphic = mGraphicOverlay.getGraphic();
         TextBlock text;
         if (graphic != null && graphic.size() > 0) {

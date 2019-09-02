@@ -17,13 +17,13 @@
                 android:id="@+id/playFirstText"
                 style="@style/UserButtons"
                 android:layout_gravity="left"
-                android:background="@drawable/ic_play_button" />
+                android:background="@drawable/my_play_but_blue_selector" />
 
             <Button
                 android:id="@+id/deleteFirstText"
                 style="@style/UserButtons"
                 android:layout_gravity="right"
-                android:background="@drawable/ic_del_text_button" />
+                android:background="@drawable/my_del_but_blue_selector" />
         </FrameLayout>
 
         <FrameLayout
@@ -36,13 +36,13 @@
 
                 <TextView
                     android:id="@+id/firstTextView"
-                    style="@style/Text"
+                    style="@style/CommunicationBlueText"
                     android:textColor="@color/colorBlue" />
             </ScrollView>
 
             <EditText
                 android:id="@+id/firstEditText"
-                style="@style/Text"
+                style="@style/CommunicationBlueText"
                 android:hint="@string/userText"
                 android:textColor="@color/colorBlue" />
         </FrameLayout>
@@ -59,13 +59,13 @@
                 android:id="@+id/playSecondText"
                 style="@style/UserButtons"
                 android:layout_gravity="left"
-                android:background="@drawable/ic_play_button" />
+                android:background="@drawable/my_play_but_purple_selector" />
 
             <Button
                 android:id="@+id/deleteSecondText"
                 style="@style/UserButtons"
                 android:layout_gravity="right"
-                android:background="@drawable/ic_del_text_button" />
+                android:background="@drawable/my_del_but_purple_selector" />
         </FrameLayout>
 
         <FrameLayout
@@ -78,15 +78,13 @@
 
                 <TextView
                     android:id="@+id/secondTextView"
-                    style="@style/Text"
-                    android:textColor="@color/colorPurple" />
+                    style="@style/CommunicationPurpleText" />
             </ScrollView>
 
             <EditText
                 android:id="@+id/secondEditText"
-                style="@style/Text"
-                android:hint="@string/userText"
-                android:textColor="@color/colorPurple" />
+                style="@style/CommunicationPurpleText"
+                android:hint="@string/userText" />
         </FrameLayout>
 
     </LinearLayout>
@@ -117,7 +115,7 @@
         <ImageView
             android:id="@+id/firstMic"
             style="@style/ButtonsLayout"
-            android:src="@drawable/my_mic_button_selector"/>
+            android:src="@drawable/my_mic_but_blue_selector" />
 
         <View
             android:layout_width="0dp"
@@ -127,8 +125,7 @@
         <ImageView
             android:id="@+id/secondMic"
             style="@style/ButtonsLayout"
-            android:src="@drawable/my_mic_but_sec_selector"/>
-
+            android:src="@drawable/my_mic_but_purple_selector" />
     </LinearLayout>
 
 </LinearLayout>

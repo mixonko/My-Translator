@@ -17,6 +17,7 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.HapticFeedbackConstants;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -62,7 +63,6 @@ public class TranslateTextActivity extends AppCompatActivity implements Translat
     private ImageView voiceInput;
     private ImageView communication;
     private TextToSpeech textToSpeech;
-    private Locale locale;
     private TranslateTextContract.Presenter presenter;
 
     @Override
@@ -70,7 +70,7 @@ public class TranslateTextActivity extends AppCompatActivity implements Translat
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_translate_text);
 
-        ActionBar actionBar = getSupportActionBar(); 
+        ActionBar actionBar = getSupportActionBar();
         actionBar.setTitle(R.string.translator);
 
         presenter = new TranslateTextPresenter(this);
@@ -227,42 +227,28 @@ public class TranslateTextActivity extends AppCompatActivity implements Translat
     }
 
     @Override
-    public void playUserText() {
-        textToSpeech = new TextToSpeech(MyApplication.getAppContext(), new TextToSpeech.OnInitListener() {
-            @Override
-            public void onInit(int status) {
-                if (status == TextToSpeech.SUCCESS) {
-                    locale = new Locale(getFirstLang());
-                    int result = textToSpeech.setLanguage(locale);
-                    if (result == TextToSpeech.LANG_MISSING_DATA
-                            || result == TextToSpeech.LANG_NOT_SUPPORTED) {
-                        Toast.makeText(MyApplication.getAppContext(), "Извините, этот язык не поддерживается", Toast.LENGTH_LONG).show();
-                    } else {
-                        textToSpeech.speak(userText.getText().toString(), TextToSpeech.QUEUE_FLUSH, null);
-                    }
-                } else {
-                    Toast.makeText(MyApplication.getAppContext(), "Ошибка воспроизведения", Toast.LENGTH_LONG).show();
-                }
-            }
-        });
+    public void playUserText(final String lang) {
+        playText(userText.getText().toString(), new Locale(getFirstLang()));
+
     }
 
     @Override
-    public void playResultText() {
+    public void playResultText(final String lang) {
+        playText(resultText.getText().toString(), new Locale(getSecondLang()));
+    }
+
+    private void playText(final String text, final Locale locale){
         textToSpeech = new TextToSpeech(MyApplication.getAppContext(), new TextToSpeech.OnInitListener() {
             @Override
             public void onInit(int status) {
                 if (status == TextToSpeech.SUCCESS) {
-                    locale = new Locale(getSecondLang());
                     int result = textToSpeech.setLanguage(locale);
                     if (result == TextToSpeech.LANG_MISSING_DATA
                             || result == TextToSpeech.LANG_NOT_SUPPORTED) {
-                        Toast.makeText(MyApplication.getAppContext(), "Извините, этот язык не поддерживается", Toast.LENGTH_LONG).show();
+                        Toast.makeText(MyApplication.getAppContext(), R.string.sorry, Toast.LENGTH_LONG).show();
                     } else {
-                        textToSpeech.speak(resultText.getText().toString(), TextToSpeech.QUEUE_FLUSH, null);
+                        textToSpeech.speak(text, TextToSpeech.QUEUE_FLUSH, null);
                     }
-                } else {
-                    Toast.makeText(MyApplication.getAppContext(), "Ошибка воспроизведения", Toast.LENGTH_LONG).show();
                 }
             }
         });
@@ -366,6 +352,7 @@ public class TranslateTextActivity extends AppCompatActivity implements Translat
 
     @Override
     public void onClick(View view) {
+        hapticFeedback(view);
         switch (view.getId()) {
             case R.id.recorder:
                 presenter.onVoiceInputButtonWasClicked();
@@ -397,13 +384,6 @@ public class TranslateTextActivity extends AppCompatActivity implements Translat
         super.onStop();
     }
 
-    private ArrayAdapter<String> getSpinnerAdapter() {
-        String[] languages = getResources().getStringArray(R.array.languages);
-        ArrayAdapter<String> adapter = new ArrayAdapter(this, android.R.layout.simple_spinner_item, languages);
-        adapter.setDropDownViewResource(android.R.layout.simple_list_item_single_choice);
-        return adapter;
-    }
-
     @Override
     public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
         presenter.onLangWasSelected();
@@ -412,6 +392,17 @@ public class TranslateTextActivity extends AppCompatActivity implements Translat
     @Override
     public void onNothingSelected(AdapterView<?> adapterView) {
 
+    }
+
+    private ArrayAdapter<String> getSpinnerAdapter() {
+        String[] languages = getResources().getStringArray(R.array.languages);
+        ArrayAdapter<String> adapter = new ArrayAdapter(this, android.R.layout.simple_spinner_item, languages);
+        adapter.setDropDownViewResource(android.R.layout.simple_list_item_single_choice);
+        return adapter;
+    }
+
+    private void hapticFeedback(View view){
+        view.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
     }
 
 }
