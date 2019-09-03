@@ -6,4 +6,5 @@
     <string name="low_storage_error">Место хранения не доступно</string>
     <string name="title_activity_ocr">Ocr Capture Activity</string>
     <string name="done">Сканировать текст</string>
+    <string name="info">Нажмите, чтобы захватить. Сжать / растянуть, чтобы увеличить</string>
 </resources>

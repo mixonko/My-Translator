@@ -9,6 +9,6 @@
     <item
         android:id="@+id/actionCamera"
         android:icon="@drawable/ic_camera_alt_white_24dp"
-        android:title="@string/photo"
+        android:title="@string/camera"
         app:showAsAction="ifRoom" />
 </menu>

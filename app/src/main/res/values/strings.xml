@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Translator</string>
+    <string name="app_name">Переводчик</string>
     <string name="text">Ввести текст</string>
     <string name="camera_text">Текст с камеры</string>
     <string name="voice_text">Голосовой текст</string>
@@ -8,7 +8,9 @@
     <string name="greeting_tutorial">Покажите экран приветствия собеседнику</string>
     <string name="greeting_text">Давай поговорим с помощью переводчика. Он будет переводить каждую нашу фразу.</string>
     <string name="sorry">Извините, этот язык не поддерживается</string>
-    <string name="photo">Photo</string>
+    <string name="photo">Сканировать текст с фотографии</string>
+    <string name="camera">Сканировать текст с камеры</string>
+    <string name="greeting">Общение</string>
     <string name="unknown">\???</string>
     <string name="азербайджанский">az</string>
     <string name="албанский">sq</string>
@@ -196,6 +198,4 @@
     <string name="eo">эсперанто</string>
     <string name="jv">яванский</string>
     <string name="ja">японский</string>
-    <string name="greeting">Общение</string>
-    <string name="translator">Переводчик</string>
 </resources>
