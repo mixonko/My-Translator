@@ -67,12 +67,12 @@ public class GreetingActivity extends AppCompatActivity implements GreetingContr
 
     @Override
     public void showError(Throwable t) {
-        Toast.makeText(MyApplication.getAppContext(), "Ошибка сервера " + t.getMessage(), Toast.LENGTH_LONG).show();
+        Toast.makeText(MyApplication.getAppContext(), R.string.server_error + t.getMessage(), Toast.LENGTH_LONG).show();
     }
 
     @Override
     public void showNoConnection() {
-        Toast.makeText(MyApplication.getAppContext(), "Отсутствует интернет соединение", Toast.LENGTH_LONG).show();
+        Toast.makeText(MyApplication.getAppContext(), R.string.no_internet_connection, Toast.LENGTH_LONG).show();
     }
 
     @Override
@@ -100,12 +100,12 @@ public class GreetingActivity extends AppCompatActivity implements GreetingContr
                     int result = textToSpeech.setLanguage(locale);
                     if (result == TextToSpeech.LANG_MISSING_DATA
                             || result == TextToSpeech.LANG_NOT_SUPPORTED) {
-                        Toast.makeText(MyApplication.getAppContext(), "Извините, этот язык не поддерживается", Toast.LENGTH_LONG).show();
+                        Toast.makeText(MyApplication.getAppContext(), R.string.language_not_supported, Toast.LENGTH_LONG).show();
                     } else {
                         textToSpeech.speak(translatedText.getText().toString(), TextToSpeech.QUEUE_FLUSH, null);
                     }
                 } else {
-                    Toast.makeText(MyApplication.getAppContext(), "Ошибка воспроизведения", Toast.LENGTH_LONG).show();
+                    Toast.makeText(MyApplication.getAppContext(), R.string.play_error, Toast.LENGTH_LONG).show();
                 }
             }
         });

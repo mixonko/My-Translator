@@ -160,12 +160,12 @@ public class TranslateTextActivity extends AppCompatActivity implements Translat
 
     @Override
     public void showNoConnection() {
-        Toast.makeText(MyApplication.getAppContext(), "Отсутствует интернет соединение", Toast.LENGTH_LONG).show();
+        Toast.makeText(MyApplication.getAppContext(), R.string.no_internet_connection, Toast.LENGTH_LONG).show();
     }
 
     @Override
     public void showError(Throwable t) {
-        Toast.makeText(MyApplication.getAppContext(), "Ошибка сервера " + t.getMessage(), Toast.LENGTH_LONG).show();
+        Toast.makeText(MyApplication.getAppContext(), R.string.server_error + t.getMessage(), Toast.LENGTH_LONG).show();
     }
 
     @Override
@@ -190,7 +190,7 @@ public class TranslateTextActivity extends AppCompatActivity implements Translat
                         if (!voiceResults.isEmpty()) {
                             userText.setText(voiceResults.get(0));
                         } else {
-                            Toast.makeText(getApplicationContext(), "Ошибка записи", Toast.LENGTH_LONG).show();
+                            Toast.makeText(getApplicationContext(), R.string.voice_rec_error, Toast.LENGTH_LONG).show();
                         }
                     }
                     break;
@@ -218,7 +218,7 @@ public class TranslateTextActivity extends AppCompatActivity implements Translat
                         userText.setText(String.valueOf(cropText));
                     } else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
                         Exception error = result.getError();
-                        Toast.makeText(MyApplication.getAppContext(), "Ошибка; " + error, Toast.LENGTH_LONG).show();
+                        Toast.makeText(MyApplication.getAppContext(), error.getMessage(), Toast.LENGTH_LONG).show();
                     }
                     break;
 
@@ -245,7 +245,7 @@ public class TranslateTextActivity extends AppCompatActivity implements Translat
                     int result = textToSpeech.setLanguage(locale);
                     if (result == TextToSpeech.LANG_MISSING_DATA
                             || result == TextToSpeech.LANG_NOT_SUPPORTED) {
-                        Toast.makeText(MyApplication.getAppContext(), R.string.sorry, Toast.LENGTH_LONG).show();
+                        Toast.makeText(MyApplication.getAppContext(), R.string.language_not_supported, Toast.LENGTH_LONG).show();
                     } else {
                         textToSpeech.speak(text, TextToSpeech.QUEUE_FLUSH, null);
                     }
@@ -288,7 +288,7 @@ public class TranslateTextActivity extends AppCompatActivity implements Translat
                 .getSystemService(Context.CLIPBOARD_SERVICE);
         ClipData clip = ClipData.newPlainText("", resultText.getText().toString());
         clipboard.setPrimaryClip(clip);
-        Toast.makeText(MyApplication.getAppContext(), "Текст скопирован", Toast.LENGTH_LONG).show();
+        Toast.makeText(MyApplication.getAppContext(), R.string.text_copied, Toast.LENGTH_LONG).show();
     }
 
     @Override

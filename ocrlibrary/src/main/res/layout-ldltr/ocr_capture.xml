@@ -29,7 +29,7 @@
         android:id="@+id/button2"
         android:layout_width="140dp"
         android:layout_height="50dp"
-        android:layout_marginBottom="64dp"
+        android:layout_marginBottom="85dp"
         android:background="@drawable/button_selector"
         android:hapticFeedbackEnabled="true"
         android:onClick="selectAll"

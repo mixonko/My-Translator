@@ -183,7 +183,7 @@ public class CommunicationActivity extends AppCompatActivity implements Communic
                     int result = textToSpeech.setLanguage(locale);
                     if (result == TextToSpeech.LANG_MISSING_DATA
                             || result == TextToSpeech.LANG_NOT_SUPPORTED) {
-                        Toast.makeText(MyApplication.getAppContext(), R.string.sorry, Toast.LENGTH_LONG).show();
+                        Toast.makeText(MyApplication.getAppContext(), R.string.language_not_supported, Toast.LENGTH_LONG).show();
                     } else {
                         textToSpeech.speak(text, TextToSpeech.QUEUE_FLUSH, null);
                     }
@@ -208,12 +208,12 @@ public class CommunicationActivity extends AppCompatActivity implements Communic
 
     @Override
     public void showNoConnection() {
-        Toast.makeText(MyApplication.getAppContext(), "Отсутствует интернет соединение", Toast.LENGTH_LONG).show();
+        Toast.makeText(MyApplication.getAppContext(), R.string.no_internet_connection, Toast.LENGTH_LONG).show();
     }
 
     @Override
     public void showError(Throwable t) {
-        Toast.makeText(MyApplication.getAppContext(), "Ошибка сервера " + t.getMessage(), Toast.LENGTH_LONG).show();
+        Toast.makeText(MyApplication.getAppContext(), R.string.server_error + t.getMessage(), Toast.LENGTH_LONG).show();
     }
 
     @Override
