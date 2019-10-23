@@ -19,6 +19,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ScrollView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -31,7 +32,8 @@ import com.myapp.test.mytranslator.presenter.CommunicationPresenter;
 import java.util.ArrayList;
 import java.util.Locale;
 
-public class CommunicationActivity extends AppCompatActivity implements CommunicationTextContract.View, View.OnClickListener {
+public class CommunicationActivity extends AppCompatActivity implements CommunicationTextContract.View,
+        View.OnClickListener {
     private static final int FIRST_RECOGNIZER_REQUEST_CODE = 1;
     private static final int SECOND_RECOGNIZER_REQUEST_CODE = 2;
     public static final String FIRST_LANG_KEY = "first lang";
@@ -50,6 +52,7 @@ public class CommunicationActivity extends AppCompatActivity implements Communic
     private Spinner firstLang;
     private Spinner secondLang;
     private TextToSpeech textToSpeech;
+    private ScrollView firstScrollView, secondScrollView;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -62,6 +65,8 @@ public class CommunicationActivity extends AppCompatActivity implements Communic
 
         presenter = new CommunicationPresenter(this);
 
+        firstScrollView = findViewById(R.id.firstScrollView);
+        secondScrollView = findViewById(R.id.secondScrollView);
         firstMic = findViewById(R.id.firstMic);
         firstMic.setOnClickListener(this);
         secondMic = findViewById(R.id.secondMic);
@@ -157,11 +162,13 @@ public class CommunicationActivity extends AppCompatActivity implements Communic
     @Override
     public void setFirstTextView(String resultText) {
         if (secondEditText.getText().toString().length() != 0) firstTextView.setText(resultText);
+        firstScrollView.fullScroll(firstScrollView.FOCUS_DOWN);
     }
 
     @Override
     public void setSecondTextView(String resultText) {
         if (firstEditText.getText().toString().length() != 0) secondTextView.setText(resultText);
+        secondScrollView.fullScroll(secondScrollView.FOCUS_DOWN);
     }
 
     @Override

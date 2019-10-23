@@ -27,6 +27,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ScrollView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -45,7 +46,8 @@ import java.util.Locale;
 
 import static com.guna.ocrlibrary.OcrCaptureActivity.TextBlockObject;
 
-public class TranslateTextActivity extends AppCompatActivity implements TranslateTextContract.View, View.OnClickListener, AdapterView.OnItemSelectedListener {
+public class TranslateTextActivity extends AppCompatActivity implements TranslateTextContract.View,
+        View.OnClickListener, AdapterView.OnItemSelectedListener {
     private final int VOICE_REQUEST_CODE = 1;
     private final int CAMERA_SCAN_REQUEST_CODE = 2;
     private final int LOAD_IMAGE_REQUEST_CODE = 3;
@@ -63,6 +65,7 @@ public class TranslateTextActivity extends AppCompatActivity implements Translat
     private ImageView voiceInput;
     private ImageView communication;
     private TextToSpeech textToSpeech;
+    private ScrollView scrollView;
     private TranslateTextContract.Presenter presenter;
 
     @Override
@@ -77,6 +80,7 @@ public class TranslateTextActivity extends AppCompatActivity implements Translat
 
         firstLangText = findViewById(R.id.firstLangText);
         secondLangText = findViewById(R.id.secondLangText);
+        scrollView = findViewById(R.id.scrollView);
         firstLang = findViewById(R.id.firstLang);
         firstLang.setAdapter(getSpinnerAdapter());
         firstLang.setSelection(3);
@@ -156,6 +160,7 @@ public class TranslateTextActivity extends AppCompatActivity implements Translat
     @Override
     public void setText(String resultText) {
         if (userText.getText().toString().length() != 0) this.resultText.setText(resultText);
+        scrollView.fullScroll(scrollView.FOCUS_DOWN);
     }
 
     @Override
